@@ -16,10 +16,10 @@ public class Atm {
     public void cardAccept(Card card) {
         try {
             card.isActive();
-            this.cardIsReady = true;    // проверка, что меняется на true +
+            this.cardIsReady = true;
         } catch (NotActiveCard ex) {
             System.out.println(ex.getMessage());
-            System.out.println(cardWorkComplete(card));    //   проверка сообщения, что работа закончена
+            System.out.println(cardWorkComplete(card));
         }
     }
 
@@ -27,13 +27,13 @@ public class Atm {
     // Подготовлена ли карта к работе
     public boolean getCardIsReady(Card card) {
         if (!cardIsReady) {
-            throw new CardIsNotReadyException(); // поверка сообщения с картой, которая не вставлена +
+            throw new CardIsNotReadyException();
         }
         return cardIsReady;
     }
 
     // Информация по банковской карте:
-    public String cardInfo(Card card) {     // проверка текста???
+    public String cardInfo(Card card) {
         StringBuilder info = new StringBuilder();
         info.append("Владелец карты: \t" + card.getOwner() + "\n");
         info.append("Номер карты: \t" + card.getNumber() + "\n");
@@ -51,26 +51,16 @@ public class Atm {
     }
 
 
-    //Реализация операции просмотра баланса и информации по карте
-//    public void balanceInfo(Card card) {
-//        try {
-//            getCardIsReady(card);
-//            System.out.println("Баланс на карте: " + card.getBalance());
-//        } catch (IllegalArgumentException ex) {
-//            System.out.println(ex.getMessage());
-//        }
-//    }
-
     //Реализация операции снятия суммы
     public String withdrawMoney(Card card, double amount) {
         try {
             getCardIsReady(card);
             card.withdrawal(amount);
-            return "Баланс на карте: " + card.getBalance();  // +Проверка сообщения
+            return "Баланс на карте: " + card.getBalance();
         } catch (InsufficientFundsException ex) {
-            return ex.getMessage() + card.balance;  // проверка сообщения +
+            return ex.getMessage() + card.balance;
         } catch (LimitTransactionException ex) {
-            return ex.getMessage();                 // проверка сообщений+
+            return ex.getMessage();
         }
     }
 
@@ -80,9 +70,9 @@ public class Atm {
         try {
             getCardIsReady(card);
             card.addMoney(amount);
-            return "Баланс на карте: " + card.getBalance(); // проверка баланса +
+            return "Баланс на карте: " + card.getBalance();
         } catch (CardIsNotReadyException ex) {
-            return ex.getMessage();  // проверка сообщения+
+            return ex.getMessage();
         }
     }
 
@@ -91,23 +81,23 @@ public class Atm {
         try {
             getCardIsReady(card);
             card.convert(exchangeRate, currencyCode);
-            return "Баланс на карте: " + card.convertedBalance + " " + currencyCode; // проверка сообщения/баланса
+            return "Баланс на карте: " + card.convertedBalance + " " + currencyCode;
         } catch (CardIsNotReadyException ex) {
-            return ex.getMessage();  // проверка сообщения+
+            return ex.getMessage();
         }
     }
 
     // Отключение карты (завершение работы с картой)
     public String cardWorkComplete(Card card) {
 
-        this.cardIsReady = false;    // проверка статуса+
-        this.isWorkCompleted = true;    // проверка статуса+
-        return "Работа с картой завершена";   // проверка сообщения
+        this.cardIsReady = false;
+        this.isWorkCompleted = true;
+        return "Работа с картой завершена";
     }
 
     // маркер завершения работы
     public boolean isWorkCompleted() {
-        return isWorkCompleted;      // проверка завершения
+        return isWorkCompleted;
     }
 
     // Метод для взаимодействия с Atm: Start - карта вставлена в банкомат, Info - получить информацию по карте
@@ -119,9 +109,7 @@ public class Atm {
         String input = scanner.nextLine();
         if (input.equals("Complete")) {
             System.out.println(cardWorkComplete(card));
-//        } else if (input.equals("Start") && !card.isActive()) {
-//            cardAccept(card);
-//            cardInfo(card);
+
         } else if (input.equals("Start")) {
             try {
                 card.isActive();

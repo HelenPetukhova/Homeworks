@@ -5,6 +5,7 @@
 
     <test name="Regression">
         <groups>
+            <define name="regression"/>
             <run>
                 <include name="regression"/>
             </run>
@@ -15,8 +16,10 @@
     </test>
     <test name="SmokeTest">
         <groups>
+            <define name="smoke"/>
             <run>
                 <include name="smoke"/>
+
             </run>
         </groups>
         <packages>
