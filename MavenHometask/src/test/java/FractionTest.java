@@ -3,13 +3,13 @@ import org.junit.*;
 
 public class FractionTest {
 
-@BeforeClass
-public static void testBeforeClass(){
-    System.out.println("The set of tests is started");
-}
+    @BeforeClass
+    public static void testBeforeClass() {
+        System.out.println("The set of tests is started");
+    }
 
     @Before
-    public void testBefore(){
+    public void testBefore() {
         System.out.println("Test is started");
     }
 
@@ -37,12 +37,12 @@ public static void testBeforeClass(){
     }
 
     @After
-    public void testAfter(){
+    public void testAfter() {
         System.out.println("Test is completed");
     }
 
     @AfterClass
-    public static void testAfterClass(){
+    public static void testAfterClass() {
         System.out.println("The running of all tests is completed");
     }
 }
