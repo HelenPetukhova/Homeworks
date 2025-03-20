@@ -23,7 +23,7 @@ public class AtmTest {
             expectedExceptions = NotActiveCard.class, expectedExceptionsMessageRegExp = "Карта заблокирована")
     public void testNotActiveCardException(Card card) {
         card.isActive();
-        ;
+
     }
 
 

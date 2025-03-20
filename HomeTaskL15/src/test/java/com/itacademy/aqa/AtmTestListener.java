@@ -19,6 +19,6 @@ public class AtmTestListener implements ITestListener {
 
     @Override
     public void onFinish(ITestContext context) {
-        System.out.println("The test suit running is complete");;
+        System.out.println("The test suit running is complete");
     }
 }
