@@ -61,7 +61,10 @@ public class Atm {
             return ex.getMessage() + card.balance;
         } catch (LimitTransactionException ex) {
             return ex.getMessage();
+        } catch (CardIsNotReadyException ex) {
+            return ex.getMessage();
         }
+
     }
 
 

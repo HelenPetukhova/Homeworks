@@ -15,7 +15,7 @@ public class Main {
         System.out.println("Вставьте карту и введите Start");
         do { //card2.cardBlock();
             //card2.setIsActive();
-            atm.operations(card1);
+            atm.operations(card3);
         }
         while (!atm.isWorkCompleted());
 

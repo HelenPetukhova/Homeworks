@@ -41,7 +41,7 @@ public class Card {
     public boolean isActive() {
         if (currentDate.getYear() < this.expireYear) {
             return true;
-        } else if (currentDate.getYear() == this.expireYear && currentDate.getMonthValue() < this.expireMonth) {
+        } else if (currentDate.getYear() == this.expireYear && currentDate.getMonthValue() <= this.expireMonth) {
             return true;
         } else {
             throw new NotActiveCard();
