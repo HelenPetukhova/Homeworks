@@ -8,7 +8,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
@@ -37,7 +36,7 @@ public class ActionsTest {
         WebElement grip = Browser.getWebDriver().findElement(By.xpath("//*[@class='ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se']"));
         Actions actions = new Actions(Browser.getWebDriver());
         actions.clickAndHold(grip).moveByOffset(250, 50).release().perform();
-        Thread.sleep(5000);
+
         System.out.println("Final width: " + source.getSize().getWidth());
         System.out.println("Final height: " + source.getSize().getHeight());
         Assert.assertEquals(source.getSize().getWidth(), initialWidth + 250, "Width is not correct");
@@ -64,7 +63,7 @@ public class ActionsTest {
                 .keyUp(Keys.CONTROL)
                 .build()
                 .perform();
-        Thread.sleep(5000);
+
 
         List<String> titlesOfSelectedItems = Arrays.asList(item2.getText(), item3.getText(), item5.getText(), item7.getText());
 
@@ -75,13 +74,13 @@ public class ActionsTest {
         Assert.assertEquals(allActualSelectedItems.size(), 4, "The number of selected items is not correct");
         Assert.assertTrue(allActualSelectedItemTitles.containsAll(titlesOfSelectedItems), "Not all selected items are displayed as selected");
 
+        // Uncheck item2 and item5
         actions.keyDown(Keys.CONTROL)
                 .click(item2)
                 .click(item5)
                 .keyUp(Keys.CONTROL)
                 .build()
                 .perform();
-        Thread.sleep(5000);
 
         List<String> titlesOfSelectedItems2 = Arrays.asList(item3.getText(), item7.getText());
         allActualSelectedItems = Browser.getWebDriver().findElements(ALL_SELECTED_ITEMS_LOCATOR);
@@ -92,49 +91,60 @@ public class ActionsTest {
 
     }
 
-    @Test(dataProvider = "expectedPositionTitleData")
-    public void sortable(String numberLocator, String itemTitle) throws InterruptedException {
+    @Test
+    public void sortable() throws InterruptedException {
         Browser.getWebDriver().get("https://jqueryui.com/sortable/");
         WebElement frame = Browser.getWebDriver().findElement(By.className("demo-frame"));
         Browser.getWebDriver().switchTo().frame(frame);
-        Thread.sleep(1000);
+
         By ALL_ITEMS_LOCATOR = By.xpath("//li[@class='ui-state-default ui-sortable-handle']");
 
-       // List<WebElement> initialListItems = Browser.getWebDriver().findElements(ALL_ITEMS_LOCATOR);
         WebElement item2 = Browser.getWebDriver().findElement(By.xpath("//li[@class='ui-state-default ui-sortable-handle'][.='Item 2']"));
-        //  WebElement target = Browser.getWebDriver().findElement(By.xpath("//li[@class='ui-state-default ui-sortable-handle'][6]"));
-        //  WebElement item2arrow = Browser.getWebDriver().findElement(By.xpath("//ul[@id='sortable']/li[.='Item 2']/span[@class='ui-icon ui-icon-arrowthick-2-n-s']"));
-        // moves to 6th element
+        WebElement target1 = Browser.getWebDriver().findElement(By.xpath("//li[@class='ui-state-default ui-sortable-handle'][6]"));
+
+
+        // moving Item2 to Item 6th place (to down)
+
         Actions actions = new Actions(Browser.getWebDriver());
         actions.
-                clickAndHold(item2).pause(1000)
-                .moveByOffset(0, 180).pause(1000).release().build().perform();
-        Thread.sleep(5000);
+                clickAndHold(item2)
+                .moveToElement(target1)
+                .moveByOffset(0, 5).pause(100).release().build().perform();
 
-        Assert.assertEquals(Browser.getWebDriver().findElement(By.xpath("//li[@class='ui-state-default ui-sortable-handle']["+numberLocator+"]")).getText(),
-                itemTitle, "The order is wrong");
 
+        List<WebElement> ListItems = Browser.getWebDriver().findElements(ALL_ITEMS_LOCATOR);
+        List<String> ListItemsAfterMovingActual = ListItems.stream().map(WebElement::getText).toList();
+        List<String> ListItemsAfterMovingExpected = List.of("Item 1", "Item 3", "Item 4", "Item 5", "Item 6", "Item 2", "Item 7");
+
+        for (int i = 0; i <= 6; i++) {
+            Assert.assertEquals(ListItemsAfterMovingActual.get(i), ListItemsAfterMovingExpected.get(i), "The order is wrong");
+
+        }
+
+        // moving Item7 to Item 1st place (form bottom to top)
+        WebElement item7 = Browser.getWebDriver().findElement(By.xpath("//li[@class='ui-state-default ui-sortable-handle'][.='Item 7']"));
+        WebElement target2 = Browser.getWebDriver().findElement(By.xpath("//li[@class='ui-state-default ui-sortable-handle'][1]"));
+        actions.
+                clickAndHold(item7)
+                .moveToElement(target2)
+                .moveByOffset(0, -5).pause(100).release().build().perform();
+
+        ListItems = Browser.getWebDriver().findElements(ALL_ITEMS_LOCATOR);
+        ListItemsAfterMovingActual = ListItems.stream().map(WebElement::getText).toList();
+        ListItemsAfterMovingExpected = List.of("Item 7", "Item 1", "Item 3", "Item 4", "Item 5", "Item 6", "Item 2");
+
+        for (int i = 0; i <= 6; i++) {
+            Assert.assertEquals(ListItemsAfterMovingActual.get(i), ListItemsAfterMovingExpected.get(i), "The order is wrong");
+
+        }
     }
 
+        @AfterTest
+        public void tearDown () {
+            Browser.close();
+        }
 
-    @AfterTest
-    public void tearDown() {
-        Browser.close();
+
+
     }
-
-
-    @DataProvider
-    public static Object[][] expectedPositionTitleData() {
-        return new Object[][]{
-                {"1", "Item 1"},
-                {"2", "Item 3"},
-                {"3", "Item 4"},
-                {"4", "Item 5"},
-                {"5", "Item 6"},
-                {"6", "Item 2"},
-                {"7", "Item 7"}
-
-        };
-    }
-}
 
