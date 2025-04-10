@@ -123,14 +123,14 @@ public class RestAssuredTests {
         System.out.println("Id is " + id);
 
         // Проверяем, что полe id обновилось на 1
-        Assert.assertTrue("Id was not updated", id == 1);
+        Assert.assertEquals("Id was not updated", 1, id);
 
     }
 
     @Test
     public void deleteJsonBodyTest() {
 
-        Response response =
+
                 given()             // начало настройки запроса
                         .log().all()        //выводит в консоль весь запрос: заголовки, тело, путь
                         .delete("https://jsonplaceholder.typicode.com/posts/1")       //Отправляет DELETE-запрос на указанный URL
