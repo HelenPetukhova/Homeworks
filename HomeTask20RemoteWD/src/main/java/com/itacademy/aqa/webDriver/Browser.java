@@ -1,21 +1,22 @@
 package com.itacademy.aqa.webDriver;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Browser {
     //Объявление статической переменной webDriver, чтобы использовать один и тот же webDriver везде
     private static WebDriver webDriver;
-// Константы (время для ожиданий)
+    // Константы (время для ожиданий)
     public static final int TIME_OUT_IN_SECONDS = 50;
     public static final long DEFAULT_TIMEOUT = 40L;
-
 
 
     //Приватный конструктор предотвращает создание экземпляров класса Browser.
@@ -39,14 +40,27 @@ public class Browser {
         webDriver.manage().timeouts().setScriptTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
     }
 
+    // Метод для поиска web элемента
+    public static WebElement findWebElement(By locator) {
+        return new WebDriverWait(getWebDriver(), Duration.ofSeconds(TIME_OUT_IN_SECONDS))
+                .until(ExpectedConditions.presenceOfElementLocated(locator));
+
+    }
+
+    // Метод для поиска списка web элементов
+    public static List<WebElement> findListOfElements(By locator) {
+        return getWebDriver().findElements(locator);
+
+    }
+
 
     //Эти методы используют WebDriverWait для ожидания, пока элемент не станет кликабельным или видимым.
     public static WebElement waitForElementToBeClickable(By locator) {
 
-            WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(TIME_OUT_IN_SECONDS));
-            wait.until(ExpectedConditions.elementToBeClickable(locator));
-            WebElement element = getWebDriver().findElement(locator);
-            return element;
+        WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(TIME_OUT_IN_SECONDS));
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
+        WebElement element = getWebDriver().findElement(locator);
+        return element;
 
     }
 
@@ -61,11 +75,13 @@ public class Browser {
 
     public static void waitForElementToBeInvisible(By locator) {
 
-    WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(TIME_OUT_IN_SECONDS));
-    wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
-}
+        WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(TIME_OUT_IN_SECONDS));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
 
-
+    public static void scrollToElement(WebElement element) {
+        ((JavascriptExecutor) Browser.getWebDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+    }
 
     public static void close() {
         if (webDriver != null) {

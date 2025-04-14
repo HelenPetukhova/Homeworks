@@ -6,10 +6,13 @@ import com.itacademy.aqa.pages.MainPage;
 import com.itacademy.aqa.pages.TVsPage;
 import com.itacademy.aqa.webDriver.Browser;
 import com.itacademy.aqa.webDriver.Configuration;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.List;
 
 
 public class OnlinerTvCatalogPageObjectTest {
@@ -68,12 +71,15 @@ public class OnlinerTvCatalogPageObjectTest {
 
 // Выбрать LG из списка
         tVsPage.getManufacturesFilter().selectOption(ManufactureFiltersEnum.LG);
+// Получаем список названий телевизоров
+        List<String> allTvTitles = tVsPage.getAllTvTitlesOnAllPages();
+// Проверяем, что
+        for (String element : allTvTitles) {
+            Assert.assertTrue(element.contains(ManufactureFiltersEnum.LG.getValue()), "Not all items are LG TV sets.");
 
-        Assert.assertTrue(tVsPage.isCorrectModelsAreDisplayed(ManufactureFiltersEnum.LG), "Not all items are LG TV sets.");
+        }
 
     }
-
-
     @AfterMethod
     public void tearDown() {
         Browser.close();

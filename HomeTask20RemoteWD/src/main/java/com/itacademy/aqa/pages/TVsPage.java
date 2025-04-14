@@ -3,6 +3,7 @@ package com.itacademy.aqa.pages;
 import com.itacademy.aqa.elements.ManufactureFiltersEnum;
 import com.itacademy.aqa.elements.ManufacturesFilter;
 import com.itacademy.aqa.webDriver.Browser;
+import com.itacademy.aqa.webDriver.BrowserEnum;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.NotFoundException;
@@ -11,10 +12,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class TVsPage extends BaseOnlinerPage{
+public class TVsPage extends BaseOnlinerPage {
 
     private static final By TV_HEADER_LOCATOR = By.xpath("//h1[contains(text(),'Телевизоры')]");
     private ManufacturesFilter manufacturesFilter;
@@ -47,7 +49,6 @@ public class TVsPage extends BaseOnlinerPage{
     }
 
     public boolean isManufacturesFilterDisplayed() {
-        manufacturesFilter = new ManufacturesFilter();
         try {
             WebElement manufactureFilterTitle = Browser.waitForElementToBeClickable(MANUFACTURES_FILTER_TITLE_LOCATOR);
             return manufactureFilterTitle.isDisplayed();
@@ -57,9 +58,8 @@ public class TVsPage extends BaseOnlinerPage{
     }
 
     public List<WebElement> getAllTvTitlesOnPage() {
-        WebDriverWait wait = new WebDriverWait(Browser.getWebDriver(), Duration.ofSeconds(DEFAULT_TIMEOUT));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(TV_TITLE_1_LOCATOR));
-        return Browser.getWebDriver().findElements(TV_ALL_TITLES_ON_PAGE_LOCATOR);
+        Browser.findWebElement(TV_TITLE_1_LOCATOR);
+        return Browser.findListOfElements(TV_ALL_TITLES_ON_PAGE_LOCATOR);
     }
 
     public void clickNext30ItemsButton() {
@@ -68,11 +68,11 @@ public class TVsPage extends BaseOnlinerPage{
     }
 
 
-    public boolean isCorrectModelsAreDisplayed(ManufactureFiltersEnum manufactureFiltersEnum) {
-
+    public List<String> getAllTvTitlesOnAllPages() {   //boolean isCorrectModelsAreDisplayed
+        List<String> allTvTitles = new ArrayList<>();
         // Находим первый элемент из списка
 
-// На всех страницах проверяем, что название выведеных товаров содержит LG
+// На всех страницах проверяем, что название выведеных товаров содержит название модели
         while (true) {
             WebDriverWait wait = new WebDriverWait(Browser.getWebDriver(), Duration.ofSeconds(DEFAULT_TIMEOUT));
             wait.until(ExpectedConditions.visibilityOfElementLocated(TV_TITLE_1_LOCATOR));
@@ -80,10 +80,7 @@ public class TVsPage extends BaseOnlinerPage{
             WebElement firstElement = tvAllTitlesOnPage.get(0);
 
             for (WebElement element : tvAllTitlesOnPage) {
-                if (!element.getText().contains(manufactureFiltersEnum.getValue())) {
-                    return false;
-                }
-
+                allTvTitles.add(element.getText());
             }
 
             // Нажимаем на кнопку "Следующие 30 товаров", пока она появляется
@@ -96,7 +93,7 @@ public class TVsPage extends BaseOnlinerPage{
             }
         }
 
-        return true;
+        return allTvTitles;
     }
 
 }

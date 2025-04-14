@@ -22,10 +22,10 @@ public class ManufacturesFilter {
   public void selectOption(ManufactureFiltersEnum manufactureFiltersEnum){
       String xPath = String.format(ITEM_PATTERN_CHECK_BOX, manufactureFiltersEnum.getValue());
       By MODEL_TV_CHECKBOX_LOCATOR = By.xpath(xPath);
-      WebElement manufactureFilterTitle = Browser.getWebDriver().findElement(MANUFACTURES_FILTER_TITLE_LOCATOR);
+      WebElement manufactureFilterTitle = Browser.findWebElement(MANUFACTURES_FILTER_TITLE_LOCATOR);
 
       // Проскролить, чтобы не мешал "Найдено... товаров" элемент
-      ((JavascriptExecutor) Browser.getWebDriver()).executeScript("arguments[0].scrollIntoView(true);",manufactureFilterTitle);
+      Browser.scrollToElement(manufactureFilterTitle);
 
       WebElement modelTvCheckbox = Browser.waitForElementToBeClickable(MODEL_TV_CHECKBOX_LOCATOR);
       modelTvCheckbox.click();
