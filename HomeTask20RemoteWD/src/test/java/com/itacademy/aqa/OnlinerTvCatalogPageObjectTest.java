@@ -6,7 +6,6 @@ import com.itacademy.aqa.pages.MainPage;
 import com.itacademy.aqa.pages.TVsPage;
 import com.itacademy.aqa.webDriver.Browser;
 import com.itacademy.aqa.webDriver.Configuration;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

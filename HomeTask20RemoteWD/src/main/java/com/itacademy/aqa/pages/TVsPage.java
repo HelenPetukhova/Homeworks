@@ -1,9 +1,7 @@
 package com.itacademy.aqa.pages;
 
-import com.itacademy.aqa.elements.ManufactureFiltersEnum;
 import com.itacademy.aqa.elements.ManufacturesFilter;
 import com.itacademy.aqa.webDriver.Browser;
-import com.itacademy.aqa.webDriver.BrowserEnum;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.NotFoundException;
