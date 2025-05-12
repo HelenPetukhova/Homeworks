@@ -1,6 +1,7 @@
 package com.itacademy.aqa.pages;
 
 import com.itacademy.aqa.config.Browser;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebElement;
@@ -19,6 +20,7 @@ public class NewPostPage extends BaseWPPage {
     private static final By VIEW_POST_BUTTON = By.xpath("//a[contains(@class, 'components-button')]");
    // private static final By WELCOME_TO_BLOCK_EDITOR_POPUP_LOCATOR = By.className("components-guide__container");
     private static final By WELCOME_POPUP_CLOSE_BUTTON_LOCATOR = By.xpath("//*[@class='components-modal__header']//button");
+    private static Logger logger = Logger.getLogger(NewPostPage.class);
 
     public NewPostPage() {
     }

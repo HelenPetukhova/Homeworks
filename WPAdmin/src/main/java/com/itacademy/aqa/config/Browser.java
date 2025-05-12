@@ -1,12 +1,18 @@
 package com.itacademy.aqa.config;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import io.qameta.allure.Attachment;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.List;
 
 public class Browser {
@@ -14,10 +20,11 @@ public class Browser {
 
     public static final int TIME_OUT_IN_SECONDS = 20;
     public static final int DEFAULT_TIMEOUT = 10;
-
+    private static Logger logger = Logger.getLogger(Browser.class);
 
     //чтобы объект этого класса нельзя было создать, делаем приватный конструктор
     private Browser() {
+
     }
 
 
@@ -30,15 +37,18 @@ public class Browser {
 
 
     public static void initDriver() {
+        logger.info("WebDriver initializing");
         webDriver = BrowserFactory.createDriver(Configuration.getBrowserEnum());
+        logger.info("WebDriver initialized");
         webDriver.manage().window().maximize();
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(DEFAULT_TIMEOUT));
-        webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(DEFAULT_TIMEOUT));
+        webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(TIME_OUT_IN_SECONDS));
         webDriver.manage().timeouts().scriptTimeout(Duration.ofSeconds(DEFAULT_TIMEOUT));
+        logger.info("Timeouts applied");
     }
 
     public static WebElement waitForElementToBeClickableAndFind(By locator) {
-
+        logger.info("Waiting for element to be clickable: " + locator);
         WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(TIME_OUT_IN_SECONDS));
         wait.until(ExpectedConditions.elementToBeClickable(locator));
 
@@ -49,7 +59,7 @@ public class Browser {
 
 
     public static List<WebElement> waitForPresenceOfAllElementsAndFind(By locator) {
-
+        logger.info("Waiting for presence of elements: " + locator);
         WebDriverWait wait = new WebDriverWait(Browser.getWebDriver(), Duration.ofSeconds(TIME_OUT_IN_SECONDS));
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
 
@@ -61,7 +71,7 @@ public class Browser {
 
 
     public static WebElement waitForVisibilityOfElementLocatedAndFind(By locator) {
-
+        logger.info("Waiting for element to be visible: " + locator);
         WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(TIME_OUT_IN_SECONDS));
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
 
@@ -72,15 +82,57 @@ public class Browser {
 
 
     public static void waitForElementToBeClickable(WebElement webElement) {
+        logger.info("Waiting for web element to be clickable");
+
         WebDriverWait wait = new WebDriverWait(Browser.getWebDriver(), Duration.ofSeconds(TIME_OUT_IN_SECONDS));
         wait.until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
 
+
+    public static void saveScreenShot() {
+        File screenShotsFolder = new File(Configuration.getScreenShotFolder());
+        if (!screenShotsFolder.exists()) {
+            screenShotsFolder.mkdirs();
+            logger.info("Screenshots folder was created");
+        }
+        TakesScreenshot ts = (TakesScreenshot) Browser.getWebDriver();
+
+        byte[] screenshot = ts.getScreenshotAs(OutputType.BYTES);
+
+        Date date = new Date();
+        SimpleDateFormat simpleDataFormat = new SimpleDateFormat("MM-dd-yyyy-h-mm-ss-SS--a");
+
+        String formattedDate = simpleDataFormat.format(date);
+
+        String fileName = Configuration.getBrowserEnum() + formattedDate + ".png";
+
+        try {
+            Files.write(new File(screenShotsFolder.getPath() + "/" + fileName).toPath(), screenshot, StandardOpenOption.CREATE);
+            logger.info("Screenshot was saved");
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error("Screenshot wasn't saved", e);
+        }
+    }
+
+    @Attachment
+    public static byte[] takeScreenShot() {
+        TakesScreenshot ts = (TakesScreenshot) Browser.getWebDriver();
+        return ts.getScreenshotAs(OutputType.BYTES);
+    }
+
+
+    public static JavascriptExecutor getJavascriptExecutor(){
+        return (JavascriptExecutor) getWebDriver();
+    }
+
     public static void close() {
         if (webDriver != null) {
             webDriver.quit();
+            logger.info("WebDriver was closed");
             webDriver = null;
+            logger.info("WebDriver was cleared");
         }
     }
 }

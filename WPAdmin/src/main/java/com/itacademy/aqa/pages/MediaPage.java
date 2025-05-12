@@ -2,6 +2,7 @@ package com.itacademy.aqa.pages;
 
 import com.itacademy.aqa.config.Browser;
 import com.itacademy.aqa.elements.LeftMenu;
+import com.itacademy.aqa.elements.NameBar;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
@@ -11,6 +12,7 @@ import java.nio.file.Path;
 
 public class MediaPage extends BaseWPPage {
     LeftMenu leftMenu;
+    private NameBar nameBar;
 
     private static final By MEDIA_LIBRARY_LOCATOR = By.xpath("//*[@class='wp-heading-inline'][contains(text(),'Media Library')]");
     private static final By ADD_NEW_MEDIA_FILE_BUTTON_LOCATOR = By.xpath("//a[contains(@class,'page-title-action')]");
@@ -25,11 +27,17 @@ public class MediaPage extends BaseWPPage {
 
     public MediaPage() {
         leftMenu = new LeftMenu();
+        nameBar = new NameBar();
+
     }
 
 
     public LeftMenu getLeftMenu() {
         return leftMenu;
+    }
+
+    public NameBar getNameBar() {
+        return nameBar;
     }
 
 

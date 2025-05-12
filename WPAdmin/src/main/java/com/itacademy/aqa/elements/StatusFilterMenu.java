@@ -1,6 +1,7 @@
 package com.itacademy.aqa.elements;
 
 import com.itacademy.aqa.config.Browser;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatusFilterMenu {
+    private static Logger logger = Logger.getLogger(StatusFilterMenu.class);
 
     public StatusFilterMenu() {
     }

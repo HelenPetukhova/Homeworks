@@ -2,6 +2,7 @@ package com.itacademy.aqa.pages;
 
 import com.itacademy.aqa.config.Browser;
 import com.itacademy.aqa.elements.*;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -12,6 +13,7 @@ public class PostsPage {
     LeftMenu leftMenu;
     StatusFilterMenu statusFilterMenu;
     BulkActionsDdl bulkActionsDdl;
+    private NameBar nameBar;
     private static final By ALL_POSTS_PAGE_TITLE_LOCATOR = By.xpath("//*[@class ='wp-heading-inline' ][contains(text(),'Posts')]");
     private static final By ADD_NEW_POST_BUTTON_LOCATOR = By.className("page-title-action");
     private static final By ALL_POSTS_TITLES_LOCATOR = By.xpath("//tr/td[contains(@class, 'page-title')]");
@@ -20,6 +22,7 @@ public class PostsPage {
     private static final String BULK_ACTIONS_OPTION_TEMPLATE_LOCATOR = "//option[@value='%s']";
     private static final By APPLY_BUTTON_LOCATOR = By.id("doaction");
     private static final String POST_STATUS_FILTER_LINK_TEMPLATE_LOCATOR = "//li[@class='%s']/a";
+    private static Logger logger = Logger.getLogger(PostsPage.class);
 
 
     public PostsPage() {
@@ -27,6 +30,8 @@ public class PostsPage {
         leftMenu = new LeftMenu();
         statusFilterMenu = new StatusFilterMenu();
         bulkActionsDdl = new BulkActionsDdl();
+        nameBar = new NameBar();
+
     }
 
     public LeftMenu getLeftMenu() {
@@ -36,6 +41,11 @@ public class PostsPage {
 
     public StatusFilterMenu getStatusFilterMenu() {
         return statusFilterMenu;
+    }
+
+
+    public NameBar getNameBar() {
+        return nameBar;
     }
 
     public boolean isPageOpened() {
