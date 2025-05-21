@@ -30,4 +30,23 @@ public class UserRoleLeftMenuData {
                 {"Subscriber","kltestuser","BT905MYP)^3j2%zFxh@sc)kU", Arrays.asList("Dashboard", "Profile")}
         };
     }
+
+    @DataProvider(name = "userRoleCredentialsPostCreators")
+    public static Object[][] userRoleCredentialsPostCreators(){
+        return new Object[][]{
+                {"Admin","kladmin","OZ%h*i5Bv*0w89%JgEugD$1V", "KL ADMIN NEW POST TITLE TEST"},
+                {"Editor","kleditor","OIwJEqB8F1Xa4J@z@&5gN2AI", "KL EDITOR NEW POST TITLE TEST"},
+                {"Author","klauthor","qBNKScpmqG15QgpJSa2YNimX", "KL AUTHOR NEW POST TITLE TEST"}
+
+        };
+    }
+
+    @DataProvider(name = "userRoleCredentialsPageCreators")
+    public static Object[][] userRoleCredentialsPageCreators(){
+        return new Object[][]{
+                {"Admin","kladmin","OZ%h*i5Bv*0w89%JgEugD$1V", "KL ADMIN NEW PAGE TITLE TEST"},
+                //  {"Editor","kleditor","OIwJEqB8F1Xa4J@z@&5gN2AI", "KL EDITOR NEW PAGE TITLE TEST"},
+
+        };
+    }
 }

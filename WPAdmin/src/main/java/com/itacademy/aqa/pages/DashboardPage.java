@@ -5,6 +5,7 @@ import com.itacademy.aqa.elements.LeftMenu;
 import com.itacademy.aqa.elements.NameBar;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 
@@ -14,10 +15,11 @@ public class DashboardPage extends BaseWPPage {
     private LeftMenu leftMenu;
     private NameBar nameBar;
 
-    private static final By DASHBOARD_HOME_PAGE_TITLE_LOCATOR = By.xpath("//h1[text()=\"Dashboard\"]");
+    private static final By DASHBOARD_HOME_PAGE_TITLE_LOCATOR = By.xpath("//h1[contains(text(),'Dashboard')]");
 
 
     public DashboardPage() {
+
         leftMenu = new LeftMenu();
         nameBar = new NameBar();
 
@@ -33,10 +35,15 @@ public class DashboardPage extends BaseWPPage {
         return nameBar;
     }
 
+
     @Override
     public boolean isPageOpened() {
-        WebElement dashboardHomePageTitle = Browser.waitForVisibilityOfElementLocatedAndFind(DASHBOARD_HOME_PAGE_TITLE_LOCATOR);
-        return dashboardHomePageTitle!= null && dashboardHomePageTitle.isDisplayed();
-
+        try {
+            WebElement dashboardHomePageTitle = Browser.waitForVisibilityOfElementLocatedAndFind(DASHBOARD_HOME_PAGE_TITLE_LOCATOR);
+            return dashboardHomePageTitle.isDisplayed();
+        }catch (TimeoutException ex){
+            logger.error("Dashboard page was not opened during expected time", ex);
+            return false;
+        }
     }
 }

@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostsPage {
-    LeftMenu leftMenu;
-    StatusFilterMenu statusFilterMenu;
-    BulkActionsDdl bulkActionsDdl;
+    private LeftMenu leftMenu;
+    private StatusFilterMenu statusFilterMenu;
+    private BulkActionsDdl bulkActionsDdl;
     private NameBar nameBar;
+    private ActionsRow actionsRow;
     private static final By ALL_POSTS_PAGE_TITLE_LOCATOR = By.xpath("//*[@class ='wp-heading-inline' ][contains(text(),'Posts')]");
     private static final By ADD_NEW_POST_BUTTON_LOCATOR = By.className("page-title-action");
     private static final By ALL_POSTS_TITLES_LOCATOR = By.xpath("//tr/td[contains(@class, 'page-title')]");
@@ -22,6 +23,8 @@ public class PostsPage {
     private static final String BULK_ACTIONS_OPTION_TEMPLATE_LOCATOR = "//option[@value='%s']";
     private static final By APPLY_BUTTON_LOCATOR = By.id("doaction");
     private static final String POST_STATUS_FILTER_LINK_TEMPLATE_LOCATOR = "//li[@class='%s']/a";
+    private static final String POST_TITLE_LINK_TEMPLATE_LOCATOR = "//td//a[contains(text(),'%s')]";
+
     private static Logger logger = Logger.getLogger(PostsPage.class);
 
 
@@ -31,7 +34,7 @@ public class PostsPage {
         statusFilterMenu = new StatusFilterMenu();
         bulkActionsDdl = new BulkActionsDdl();
         nameBar = new NameBar();
-
+        actionsRow = new ActionsRow();
     }
 
     public LeftMenu getLeftMenu() {
@@ -44,9 +47,15 @@ public class PostsPage {
     }
 
 
+    public BulkActionsDdl getBulkActionsDdl() {
+        return bulkActionsDdl;
+    }
+
+
     public NameBar getNameBar() {
         return nameBar;
     }
+
 
     public boolean isPageOpened() {
         try {
@@ -103,4 +112,16 @@ public class PostsPage {
         bulkActionsDdl.selectBulkAction(BulkActionsEnum.DELETE_PERMANENTLY);
         clickApplyButton();
     }
+
+    public void clickPostTitle(String postTitle){
+        String xPath = String.format(POST_TITLE_LINK_TEMPLATE_LOCATOR, postTitle);
+        By POST_TITLE_LINK_LOCATOR = By.xpath(xPath);
+        WebElement postTitleLink = Browser.waitForElementToBeClickableAndFind(POST_TITLE_LINK_LOCATOR);
+        postTitleLink.click();
+    }
+
+    public ActionsRow getActionsRow() {
+        return actionsRow;
+    }
+
 }
