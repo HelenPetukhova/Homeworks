@@ -34,7 +34,7 @@ public class Main {
         }
 
         List<String> list = new ArrayList<>();
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("in1.txt"));) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("in1.txt"))) {
 
             String line;
 
@@ -49,7 +49,7 @@ public class Main {
         }
 
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("in2.txt"));) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("in2.txt"))) {
 
                 String line;
 
