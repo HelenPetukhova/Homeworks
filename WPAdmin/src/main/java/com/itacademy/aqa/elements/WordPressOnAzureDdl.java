@@ -12,7 +12,8 @@ public class WordPressOnAzureDdl {
     public WordPressOnAzureDdl() {
     }
 
-    public void wordPressOnAzureButtonClick(){
+    public void wordPressOnAzureDdlClick(){
+        logger.info("Clicking on 'WordPress On Azure' option of 'WordPress On Azure' ddl");
         WebElement wordPressOnAzureButton = Browser.waitForElementToBeClickableAndFind(WORD_PRESS_AZURE_BUTTON);
         wordPressOnAzureButton.click();
     }

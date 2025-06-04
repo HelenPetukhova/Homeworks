@@ -2,6 +2,8 @@ package com.itacademy.aqa.pages;
 
 import com.itacademy.aqa.config.Browser;
 import com.itacademy.aqa.elements.*;
+import com.itacademy.aqa.enums.BulkActionsEnum;
+import com.itacademy.aqa.enums.StatusFilterMenuEnum;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -10,12 +12,12 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PagesPage extends BaseWPPage {
-    private LeftMenu leftMenu;
-    private NameBar nameBar;
+public class PagesPage extends BaseAdminPage {
+
     private BulkActionsDdl bulkActionsDdl;
     private StatusFilterMenu statusFilterMenu;
-
+    private PostsPagesActionsRow postsPagesActionsRow;
+    private WordPressOnAzureDdl wordPressOnAzureDdl;
     private static final By PAGES_PAGE_TITLE_LOCATOR = By.xpath("//h1[contains(text(),'Pages')]");
     private static final By ADD_NEW_PAGE_BUTTON_LOCATOR = By.className("page-title-action");
     private static final By ALL_PAGES_TITLES_LOCATOR = By.xpath("//tr/td[contains(@class, 'page-title')]");
@@ -28,36 +30,34 @@ public class PagesPage extends BaseWPPage {
 
     public PagesPage() {
 
-        leftMenu = new LeftMenu();
-        nameBar = new NameBar();
+        super();
         bulkActionsDdl = new BulkActionsDdl();
         statusFilterMenu = new StatusFilterMenu();
-
+        postsPagesActionsRow = new PostsPagesActionsRow();
+        wordPressOnAzureDdl = new WordPressOnAzureDdl();
     }
 
-
-    public LeftMenu getLeftMenu() {
-        return leftMenu;
+    public PostsPagesActionsRow getActionsRow() {
+        return postsPagesActionsRow;
     }
 
-
-    public NameBar getNameBar() {
-        return nameBar;
+    public WordPressOnAzureDdl getWordPressOnAzureDdl() {
+        return wordPressOnAzureDdl;
     }
-
 
     @Override
     public boolean isPageOpened() {
-        try {
+        try {logger.info("Finding the title of 'Pages' page");
             WebElement pagesPageTitle = Browser.waitForVisibilityOfElementLocatedAndFind(PAGES_PAGE_TITLE_LOCATOR);
             return pagesPageTitle.isDisplayed();
         } catch (TimeoutException ex) {
-            logger.error("Dashboard page was not opened during expected time", ex);
+            logger.error("'Pages' page was not opened during expected time", ex);
             return false;
         }
     }
 
     public void addNewPageButtonClick() {
+        logger.info("Clicking 'Add New Page' button");
 
         WebElement addNewPageButton = Browser.waitForElementToBeClickableAndFind(ADD_NEW_PAGE_BUTTON_LOCATOR);
         addNewPageButton.click();
@@ -65,8 +65,7 @@ public class PagesPage extends BaseWPPage {
 
 
     public List<String> getAllPagesTitles() {
-
-
+        logger.info("Getting titles of all pages in the list on 'Pages' page");
         List<WebElement> allPagesTitlesElements = Browser.waitForPresenceOfAllElementsAndFind(ALL_PAGES_TITLES_LOCATOR);
         List<String> allPagesTitles = new ArrayList<>();
 
@@ -79,21 +78,24 @@ public class PagesPage extends BaseWPPage {
     }
 
     public void checkOffPost(String pageTitle) {
+        logger.info("Finding a page title and checking off check box near it");
         String xPath = String.format(CHECK_BOX_TO_SELECT_PAGE_PATTERN_LOCATOR, pageTitle);
-        By CHECK_BOX_TO_SELECT_PAGE_LOCATOR = By.xpath(xPath);
-        WebElement checkBoxToSelectPage = Browser.waitForElementToBeClickableAndFind(CHECK_BOX_TO_SELECT_PAGE_LOCATOR);
+        By checkBoxToSelectPageLocator = By.xpath(xPath);
+        WebElement checkBoxToSelectPage = Browser.waitForElementToBeClickableAndFind(checkBoxToSelectPageLocator);
         checkBoxToSelectPage.click();
 
     }
 
 
     public void clickApplyButton() {
+        logger.info("Clicking 'Apply' button to apply bulk action");
         WebElement applyButton = Browser.waitForElementToBeClickableAndFind(APPLY_BUTTON_LOCATOR);
         applyButton.click();
     }
 
 
     public void deletePage(String postTitle) {
+        logger.info("Deleting a page");
         checkOffPost(postTitle);
         bulkActionsDdl.selectBulkAction(BulkActionsEnum.MOVE_TO_TRASH);
         clickApplyButton();
@@ -104,10 +106,11 @@ public class PagesPage extends BaseWPPage {
     }
 
     public void clickPageTitle(String pageTitle) {
+        logger.info("Clicking page title link on 'Pages' page");
         String xPath = String.format(PAGE_TITLE_LINK_TEMPLATE_LOCATOR, pageTitle);
-        By PAGE_TITLE_LINK_LOCATOR = By.xpath(xPath);
-        WebElement postTitleLink = Browser.waitForElementToBeClickableAndFind(PAGE_TITLE_LINK_LOCATOR);
+        By pageTitleLinkLocator = By.xpath(xPath);
+        WebElement postTitleLink = Browser.waitForElementToBeClickableAndFind(pageTitleLinkLocator);
         postTitleLink.click();
     }
-}
 
+}

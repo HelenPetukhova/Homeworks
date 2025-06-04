@@ -1,6 +1,7 @@
 package com.itacademy.aqa.elements;
 
 import com.itacademy.aqa.config.Browser;
+import com.itacademy.aqa.enums.NameBarOptionEnum;
 import io.qameta.allure.Step;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -18,6 +19,7 @@ public class NameBar {
 
 
     public void clickLogOut() {
+        logger.info("User is logging out through Name bar");
         clickOnItem(NameBarOptionEnum.LOG_OUT);
 
     }

@@ -11,11 +11,8 @@ import org.openqa.selenium.WebElement;
 
 import java.nio.file.Path;
 
-public class MediaPage extends BaseWPPage {
-    LeftMenu leftMenu;
-    private NameBar nameBar;
+public class MediaPage extends BaseAdminPage {
 
-    //*[@class='attachments-wrapper']//*[@class='thumbnail']//*[contains(@src,'camera')]
     private static final By MEDIA_LIBRARY_LOCATOR = By.xpath("//*[@class='wp-heading-inline'][contains(text(),'Media Library')]");
     private static final By ADD_NEW_MEDIA_FILE_BUTTON_LOCATOR = By.xpath("//a[contains(@class,'page-title-action')]");
     private static final By SELECT_FILES_BUTTON_LOCATOR = By.xpath("//*[@class='upload-ui']/button");
@@ -32,21 +29,8 @@ public class MediaPage extends BaseWPPage {
 
 
     public MediaPage() {
-
-        leftMenu = new LeftMenu();
-        nameBar = new NameBar();
+        super();
     }
-
-
-    public LeftMenu getLeftMenu() {
-        return leftMenu;
-    }
-
-
-    public NameBar getNameBar() {
-        return nameBar;
-    }
-
 
     @Override
     public boolean isPageOpened() {
@@ -60,6 +44,7 @@ public class MediaPage extends BaseWPPage {
     }
 
     public void addNewMediaFileButtonClick() {
+        logger.info("Clicking 'Add New Media' button");
         WebElement addNewMediaFileButton = Browser.waitForElementToBeClickableAndFind(ADD_NEW_MEDIA_FILE_BUTTON_LOCATOR);
         addNewMediaFileButton.click();
     }
@@ -70,19 +55,21 @@ public class MediaPage extends BaseWPPage {
 //    }
 
     public boolean uploadNewImgFile() {
+        logger.info("Uploading image file <50 Mb");
         addNewMediaFileButtonClick();
 
         WebElement fileInput = Browser.getWebDriver().findElement(INPUT_FIELD_LOCATOR);
 
         Path path = Path.of("camera.jpg");
         String absolutePath = path.toAbsolutePath().toString();
-
+        logger.info("Uploading camera.jpg file");
         fileInput.sendKeys(absolutePath);
         return isMediaFileDisplayed(UPLOADED_IMG_FILE_LOCATOR);
     }
 
 
     public boolean uploadBigVideoFile() {
+        logger.info("Trying to upload a file with more than 50 MB size");
         addNewMediaFileButtonClick();
 
         WebElement fileInput = Browser.getWebDriver().findElement(INPUT_FIELD_LOCATOR);
@@ -97,9 +84,11 @@ public class MediaPage extends BaseWPPage {
 
     public boolean isErrorMessageDisplayed() {
         try {
+            logger.info("Finding error message about maximum file size exceeding");
             WebElement sizeExceededErrorMessage = Browser.waitForVisibilityOfElementLocatedAndFind(UPLOAD_ERROR_MESSAGE_LOCATOR);
             return sizeExceededErrorMessage.isDisplayed();
         } catch (RuntimeException ex) {
+            logger.error("The error message about maximum file size exceeding is not displayed");
             return false;
         }
     }
@@ -107,9 +96,11 @@ public class MediaPage extends BaseWPPage {
 
     public boolean isMediaFileDisplayed(By locator) {
         try {
+            logger.info("Finding uploaded file thumbnail");
             WebElement uploadedFileThumbnail = Browser.waitForElementToBeClickableAndFind(locator);
             return uploadedFileThumbnail.isDisplayed();
         } catch (RuntimeException ex) {
+            logger.error("Uploaded file thumbnail is not found");
             return false;
         }
 
@@ -118,26 +109,32 @@ public class MediaPage extends BaseWPPage {
 
     public void closeAlertIfPresent() {
         try {
+            logger.info("Closing conformation message");
             Alert alert = Browser.getWebDriver().switchTo().alert();
             alert.accept(); // или alert.dismiss()
         } catch (NoAlertPresentException e) {
-
+            logger.warn("Alert message didn't appear");
         }
     }
 
     public void deleteUploadedFile() {
+        logger.info("Deleting uploaded file");
+        logger.info("Clicking 'Bulk Select' button");
         WebElement bulkSelectButton = Browser.waitForElementToBeClickableAndFind(BULK_SELECT_BUTTON_LOCATOR);
         bulkSelectButton.click();
+        logger.info("Selecting the thumbnail of the file to be deleted");
         WebElement uploadedFileThumbnail = Browser.waitForElementToBeClickableAndFind(UPLOADED_FILE_THUMBNAIL_LOCATOR);
         uploadedFileThumbnail.click();
         WebElement fileCheckMark = Browser.waitForVisibilityOfElementLocatedAndFind(FILE_CHECK_LOCATOR);
+        logger.info("Clicking 'Delete Permanently' button");
         WebElement deletePermanentlyButton = Browser.waitForElementToBeClickableAndFind(DELETE_PERMANENTLY_BUTTON_LINK_LOCATOR);
         deletePermanentlyButton.click();
         closeAlertIfPresent();
 
     }
 
-    public boolean isMediaFileDeleted(){
+    public boolean isMediaFileDeleted() {
+
         deleteUploadedFile();
         return isMediaFileDisplayed(UPLOADED_IMG_FILE_LOCATOR);
     }

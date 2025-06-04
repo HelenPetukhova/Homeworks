@@ -9,30 +9,14 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 
-public class DashboardPage extends BaseWPPage {
+public class DashboardPage extends BaseAdminPage {
     private static Logger logger = Logger.getLogger(DashboardPage.class);
 
-    private LeftMenu leftMenu;
-    private NameBar nameBar;
-
-    private static final By DASHBOARD_HOME_PAGE_TITLE_LOCATOR = By.xpath("//h1[contains(text(),'Dashboard')]");
+    private static final By DASHBOARD_HOME_PAGE_TITLE_LOCATOR = By.xpath("//h1[text()='Dashboard']");   // если без h1 : //*[@class='wrap']//*[(text()='Dashboard')]
 
 
     public DashboardPage() {
-
-        leftMenu = new LeftMenu();
-        nameBar = new NameBar();
-
-    }
-
-
-    public LeftMenu getLeftMenu() {
-
-        return leftMenu;
-    }
-
-    public NameBar getNameBar(){
-        return nameBar;
+        super();
     }
 
 
@@ -41,7 +25,7 @@ public class DashboardPage extends BaseWPPage {
         try {
             WebElement dashboardHomePageTitle = Browser.waitForVisibilityOfElementLocatedAndFind(DASHBOARD_HOME_PAGE_TITLE_LOCATOR);
             return dashboardHomePageTitle.isDisplayed();
-        }catch (TimeoutException ex){
+        } catch (TimeoutException ex) {
             logger.error("Dashboard page was not opened during expected time", ex);
             return false;
         }

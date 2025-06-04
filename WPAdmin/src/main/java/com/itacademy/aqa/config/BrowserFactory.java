@@ -6,9 +6,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class BrowserFactory {
     private static Logger logger = Logger.getLogger(BrowserFactory.class);
 

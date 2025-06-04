@@ -1,6 +1,7 @@
 package com.itacademy.aqa.elements;
 
 import com.itacademy.aqa.config.Browser;
+import com.itacademy.aqa.enums.LeftMenuEnum;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.apache.log4j.Logger;
@@ -24,10 +25,10 @@ public class LeftMenu {
     public void clickOnItem(LeftMenuEnum leftMenuEnum) {
         logger.info("Clicking on item from left menu: " + leftMenuEnum);
 
-        By LEFT_MENU_LOCATOR = By.id(leftMenuEnum.getValue());
+        By leftMenuLocator = By.id(leftMenuEnum.getValue());
 
-        logger.debug("Creating locator for left menu option: " + LEFT_MENU_LOCATOR);
-        WebElement leftMenu = Browser.waitForElementToBeClickableAndFind(LEFT_MENU_LOCATOR);
+        logger.debug("Creating locator for left menu option: " + leftMenuLocator);
+        WebElement leftMenu = Browser.waitForElementToBeClickableAndFind(leftMenuLocator);
         Allure.addAttachment("Selecting the item from left menu",leftMenuEnum.getValue() );
         leftMenu.click();
         logger.info("Item selected in left menu: " + leftMenuEnum);

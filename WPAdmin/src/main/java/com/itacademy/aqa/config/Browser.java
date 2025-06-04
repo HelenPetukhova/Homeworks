@@ -124,6 +124,7 @@ public class Browser {
 
 
     public static JavascriptExecutor getJavascriptExecutor(){
+
         return (JavascriptExecutor) getWebDriver();
     }
 

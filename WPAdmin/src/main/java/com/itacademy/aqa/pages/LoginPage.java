@@ -18,7 +18,10 @@ public class LoginPage extends BaseWPPage {
     private WebElement passwordInput;
     @FindBy(id = "wp-submit")
     private WebElement loginButton;
-
+    @FindBy(id = "login_error")
+    private WebElement errorMessage;
+    @FindBy(xpath = "//*[@id=\"login_error\"]/p")
+    private WebElement errorMessageText;
 
     public LoginPage() {
         super();
@@ -32,6 +35,7 @@ public class LoginPage extends BaseWPPage {
             Browser.waitForElementToBeClickable(loginButton);
             return loginButton.isDisplayed();
         } catch (RuntimeException ex) {
+            logger.error("'Log In' button is not displayed or Login page is not opened");
             return false;
         }
     }
@@ -39,9 +43,11 @@ public class LoginPage extends BaseWPPage {
     @Step("Logging in")
     public void doLogin(String role, String userName, String password) {
         logger.info("Log in WP Admin as " + role);
-        logger.debug("Entering userName and password of " + role);
+
         fillLoginData(role, userName, password);
+        Browser.takeScreenShot();
         logger.info("Username and password of " + role + " are entered in Login form");
+
         submitLoginForm();
         logger.info("Login Form submitted");
     }
@@ -49,35 +55,42 @@ public class LoginPage extends BaseWPPage {
     @Step("Filling username and password")
     private void fillLoginData(String role, String userName, String password) {
         logger.info("Filling credentials in Login form");
-        logger.debug("Finding Username input field");
         Browser.waitForElementToBeClickable(usernameInput);
-        logger.debug("Clearing Username input field");
         usernameInput.clear();
-        //  usernameInput.sendKeys("test-admin");
-        logger.debug("Entering userName of " + role + "in Username input field");
         usernameInput.sendKeys(userName);
-        logger.info("Username is entered in Login form");
+        logger.info("UserName of " + role + " is entered in Username input field");
 
-        logger.debug("Finding Password input field");
         Browser.waitForElementToBeClickable(passwordInput);
-        logger.debug("Clearing Password input field");
         passwordInput.clear();
-        logger.debug("Entering password of " + role + "in Password input field");
         passwordInput.sendKeys(password);
-        logger.info("Password is entered in Login form");
+        logger.info("Password of " + role + " is entered in Username input field");
 
-        //  passwordInput.sendKeys("&2agnh5MyevReS8jhoYDTtbt");
     }
 
     @Step("Clicking LogIn button")
     public void submitLoginForm() {
         logger.info("Login form submitting");
-        logger.debug("Finding LogIn button");
         Browser.waitForElementToBeClickable(loginButton);
         loginButton.click();
-        logger.info("Login button clicked");
     }
 
 
-}
+    @Step("Finding error message when credentials are invalid")
+    public boolean isErrorMessageForInvalidCredentialsDisplayed() {
+        logger.info("Finding if error message is displayed");
+        try {
+            Browser.waitForElementToBeClickable(errorMessage);
+            Browser.takeScreenShot();
+            return errorMessage.isDisplayed();
+        } catch (RuntimeException ex) {
+            Browser.takeScreenShot();
+            return false;
+        }
+    }
 
+    @Step("Getting error message text")
+    public String getErrorMessageText() {
+        logger.debug("Getting text of error message");
+        return errorMessageText.getText().trim();
+    }
+}

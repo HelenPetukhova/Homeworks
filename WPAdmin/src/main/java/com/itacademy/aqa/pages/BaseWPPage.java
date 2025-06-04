@@ -10,4 +10,3 @@ public abstract class BaseWPPage {
     public abstract boolean isPageOpened();
 
 }
-// Подумать, что сюда еще перенести !!

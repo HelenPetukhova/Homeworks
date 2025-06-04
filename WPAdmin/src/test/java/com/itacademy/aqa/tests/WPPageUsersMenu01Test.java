@@ -19,55 +19,20 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 public class WPPageUsersMenu01Test {
-    private static Logger logger = Logger.getLogger(WPPageUsersMenu01Test.class);
 
+    private static Logger logger = Logger.getLogger(WPPageUsersMenu01Test.class);
 
     @BeforeMethod
     public void initialize() {
+        Configuration.getProperties();
         Browser.initDriver();
         Browser.getWebDriver().get(Configuration.getBaseUrl());
     }
 
 
-//    @Test
-//    public void loginPageCanBeOpenedTest() {
-//        LoginPage loginPage = new LoginPage();
-//        Assert.assertTrue(loginPage.isPageOpened(), "'Log In' button is not displayed");
-//    }
-
-
-//    @Test(dataProvider = "userRoleCredentials", dataProviderClass = UserRoleLeftMenuData.class)
-//    // Enter correct login/password of any user and verify that Dashboard/Home page is opened
-//    public void loginWithCorrectCredentialsTest(String role, String username, String password) {
-//        LoginPage loginPage = new LoginPage();
-//        loginPage.doLogin(role, username, password);
-//        DashboardPage dashboardPage = new DashboardPage();
-//
-//        Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
-//    }
-
-
-//
-//    @Test
-//    //TC01 Left menu depends on user roles
-//    public void leftMenuItemsForAdmin() {
-//        List<String> expectedLeftMenuItems = Arrays.asList("Dashboard", "Posts", "Media", "Pages", "Comments", "Appearance", "Plugins", "Users",
-//                                                          "Tools", "Settings", "Performance", "Smush");
-//
-//        LoginPage loginPage = new LoginPage();
-//        loginPage.doLogin("test-admin", "&2agnh5MyevReS8jhoYDTtbt");
-//
-//        DashboardPage dashboardPage = new DashboardPage();
-//        System.out.println("Actual menu: " + dashboardPage.getLeftMenu().getLeftMenuItemsTitles());
-//
-//        Assert.assertEquals(dashboardPage.getLeftMenu().getLeftMenuItemsTitles(), expectedLeftMenuItems);
-//    }
-//
-
-
-    // TC01
     @Test(dataProvider = "userRoleLeftMenuData", dataProviderClass = UserRoleLeftMenuData.class)
-    @Description("Test01: Left Menu depends on user's role") @Severity(SeverityLevel.CRITICAL)
+    @Description("Test01: Left Menu depends on user's role")
+    @Severity(SeverityLevel.CRITICAL)
     public void leftMenuDependsOnUserRolesTest(String role, String username, String password, List<String> expectedLeftMenuItems) {
         logger.info("Starting test to check dependence of left menu content on user role");
         logger.debug("Creating loginPage object");
