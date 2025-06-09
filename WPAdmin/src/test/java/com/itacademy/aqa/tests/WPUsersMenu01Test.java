@@ -18,9 +18,9 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class WPPageUsersMenu01Test {
+public class WPUsersMenu01Test {
 
-    private static Logger logger = Logger.getLogger(WPPageUsersMenu01Test.class);
+    private static final Logger logger = Logger.getLogger(WPUsersMenu01Test.class);
 
     @BeforeMethod
     public void initialize() {

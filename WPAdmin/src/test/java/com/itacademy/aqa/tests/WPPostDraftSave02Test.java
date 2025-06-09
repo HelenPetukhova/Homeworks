@@ -17,7 +17,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class WPPostDraftSave02Test {
-    private static Logger logger = Logger.getLogger(WPPostDraftSave02Test.class);
+    private static final Logger logger = Logger.getLogger(WPPostDraftSave02Test.class);
 
 
     @BeforeMethod
@@ -28,7 +28,7 @@ public class WPPostDraftSave02Test {
     }
 
     //TC02
-    @Test(dataProvider = "userRoleCredentialsPostCreators", dataProviderClass = UserRoleLeftMenuData.class)
+    @Test(dataProvider = "userRoleCredentialsPostCreators", dataProviderClass = UserRoleLeftMenuData.class, groups = {"regression"})
     @Description("Test02: Posts - Draft can be saved")
     @Severity(SeverityLevel.CRITICAL)
     public void savedDraftCanBeFindInPostsTableTest(String role, String userName, String password, String postTitle) {

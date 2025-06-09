@@ -2,17 +2,19 @@ package com.itacademy.aqa.elements;
 
 import com.itacademy.aqa.config.Browser;
 import com.itacademy.aqa.enums.ActionsEnum;
+import io.qameta.allure.Step;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 public class PostsPagesActionsRow {
-    private static Logger logger = Logger.getLogger(PostsPagesActionsRow.class);
+    private static final Logger logger = Logger.getLogger(PostsPagesActionsRow.class);
 
     public PostsPagesActionsRow() {
     }
 
+    @Step("Find the following post or page: '{postOrPageTitle}' and select the following action for it: '{actionsEnum}'")
     public void clickOnItem(String postOrPageTitle, ActionsEnum actionsEnum) {
         logger.info("Clicking on option from actions row");
 

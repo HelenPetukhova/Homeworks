@@ -3,6 +3,7 @@ package com.itacademy.aqa.pages;
 import com.itacademy.aqa.config.Browser;
 import com.itacademy.aqa.elements.LeftMenu;
 import com.itacademy.aqa.elements.NameBar;
+import io.qameta.allure.Step;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -25,7 +26,7 @@ public class MediaPage extends BaseAdminPage {
     private static final By DELETE_PERMANENTLY_BUTTON_LINK_LOCATOR = By.xpath("//*[@class='media-toolbar-secondary']/button[.='Delete permanently']");
     private static final By UPLOAD_ERROR_MESSAGE_LOCATOR = By.xpath("//*[@class='upload-error-message'][contains(text(),'exceeds the maximum upload size for this site')]");
 
-    private static Logger logger = Logger.getLogger(MediaPage.class);
+    private static final Logger logger = Logger.getLogger(MediaPage.class);
 
 
     public MediaPage() {
@@ -43,6 +44,7 @@ public class MediaPage extends BaseAdminPage {
 
     }
 
+    @Step("Click 'Add New Media' button")
     public void addNewMediaFileButtonClick() {
         logger.info("Clicking 'Add New Media' button");
         WebElement addNewMediaFileButton = Browser.waitForElementToBeClickableAndFind(ADD_NEW_MEDIA_FILE_BUTTON_LOCATOR);
@@ -54,6 +56,7 @@ public class MediaPage extends BaseAdminPage {
 //        selectFilesButton.click();
 //    }
 
+    @Step("Upload new image file < 50MB: camera.jpg")
     public boolean uploadNewImgFile() {
         logger.info("Uploading image file <50 Mb");
         addNewMediaFileButtonClick();
@@ -67,7 +70,7 @@ public class MediaPage extends BaseAdminPage {
         return isMediaFileDisplayed(UPLOADED_IMG_FILE_LOCATOR);
     }
 
-
+    @Step("Try to upload video file > 50 MB: big_file.mp4")
     public boolean uploadBigVideoFile() {
         logger.info("Trying to upload a file with more than 50 MB size");
         addNewMediaFileButtonClick();
@@ -82,6 +85,7 @@ public class MediaPage extends BaseAdminPage {
     }
 
 
+    @Step("Check if error message about maximum file size exceeding appeared")
     public boolean isErrorMessageDisplayed() {
         try {
             logger.info("Finding error message about maximum file size exceeding");
@@ -93,7 +97,7 @@ public class MediaPage extends BaseAdminPage {
         }
     }
 
-
+    @Step("Check if thumbnail of uploaded file is displayed on 'Media' page")
     public boolean isMediaFileDisplayed(By locator) {
         try {
             logger.info("Finding uploaded file thumbnail");
@@ -106,37 +110,45 @@ public class MediaPage extends BaseAdminPage {
 
     }
 
-
+    @Step("Close alert message")
     public void closeAlertIfPresent() {
         try {
             logger.info("Closing conformation message");
             Alert alert = Browser.getWebDriver().switchTo().alert();
+            logger.info("Alert message: " + alert.getText());
             alert.accept(); // или alert.dismiss()
         } catch (NoAlertPresentException e) {
             logger.warn("Alert message didn't appear");
         }
     }
 
+    @Step("Delete uploaded file through 'Bulk Select' button")
     public void deleteUploadedFile() {
         logger.info("Deleting uploaded file");
         logger.info("Clicking 'Bulk Select' button");
+
         WebElement bulkSelectButton = Browser.waitForElementToBeClickableAndFind(BULK_SELECT_BUTTON_LOCATOR);
         bulkSelectButton.click();
+
         logger.info("Selecting the thumbnail of the file to be deleted");
+
         WebElement uploadedFileThumbnail = Browser.waitForElementToBeClickableAndFind(UPLOADED_FILE_THUMBNAIL_LOCATOR);
         uploadedFileThumbnail.click();
         WebElement fileCheckMark = Browser.waitForVisibilityOfElementLocatedAndFind(FILE_CHECK_LOCATOR);
+
         logger.info("Clicking 'Delete Permanently' button");
+
         WebElement deletePermanentlyButton = Browser.waitForElementToBeClickableAndFind(DELETE_PERMANENTLY_BUTTON_LINK_LOCATOR);
         deletePermanentlyButton.click();
         closeAlertIfPresent();
 
     }
 
-    public boolean isMediaFileDeleted() {
 
-        deleteUploadedFile();
-        return isMediaFileDisplayed(UPLOADED_IMG_FILE_LOCATOR);
+    @Step("Check if media file is not displayed 'Media' page")
+    public boolean isMediaFileDeleted() {
+        logger.info("Checking that uploaded media file is not visible");
+        return Browser.waitForInvisibilityOfElementLocated(UPLOADED_IMG_FILE_LOCATOR);
+
     }
 }
-

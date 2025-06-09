@@ -16,12 +16,12 @@ import java.util.List;
 public class LeftMenu {
 
     private static final By LEFT_MENU_ITEMS_LOCATOR = By.xpath("//*[@id=\"adminmenu\"]/li//div[@class=\"wp-menu-name\"]");
-    private static Logger logger = Logger.getLogger(LeftMenu.class);
+    private static final Logger logger = Logger.getLogger(LeftMenu.class);
 
     public LeftMenu() {
     }
 
-    @Step("Click the Item of Left menu")
+    @Step("Click the Item of Left menu: '{leftMenuEnum}'")
     public void clickOnItem(LeftMenuEnum leftMenuEnum) {
         logger.info("Clicking on item from left menu: " + leftMenuEnum);
 

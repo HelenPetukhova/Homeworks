@@ -1,6 +1,7 @@
 package com.itacademy.aqa.pages;
 
 import com.itacademy.aqa.config.Browser;
+import io.qameta.allure.Step;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NotFoundException;
@@ -26,7 +27,7 @@ public class NewPostPage extends BaseEditorPage {
     private static final By VIEW_POST_BUTTON_LOCATOR = By.xpath("//*[@class='post-publish-panel__postpublish-buttons']/a[.='View Post']");
     private static final By POST_ADDRESS_INPUT_FILED_LOCATOR = By.className("components-text-control__input");
 
-    private static Logger logger = Logger.getLogger(NewPostPage.class);
+    private static final Logger logger = Logger.getLogger(NewPostPage.class);
 
     public NewPostPage() {
         super();
@@ -34,42 +35,32 @@ public class NewPostPage extends BaseEditorPage {
 
 
     @Override
+    @Step("Check that the page for creating a new post is opened")
     public boolean isPageOpened() {
-        try {logger.info("Finding 'Post' tab on page");
+        try {
+            logger.info("Finding 'Post' tab on page");
             return Browser.waitForElementToBeClickableAndFind(POST_TAB_LOCATOR).isDisplayed();
-        } catch (NotFoundException ex) {
+        } catch (RuntimeException ex) {
             logger.error("Post Editor page is not opened");
             return false;
         }
     }
 
-//    public void addTitleAndText(String postTitle) {
-//        WebElement frame = Browser.waitForVisibilityOfElementLocatedAndFind(NEW_POST_PAGE_IFRAME_LOCATOR); //можно упростить до //*[@name="editor-canvas"], //iframe тоже уникальный
-//        Browser.getWebDriver().switchTo().frame(frame);
-//        WebElement newPostTitleInputField = Browser.waitForElementToBeClickableAndFind(NEW_POST_TITLE_INPUT_FIELD_LOCATOR);
-//        newPostTitleInputField.sendKeys(postTitle);
-//
-//        WebElement newPostTextInputField = Browser.waitForElementToBeClickableAndFind(NEW_POST_TEXT_INPUT_FIELD_INITIAL_LOCATOR);
-//        newPostTextInputField.click();
-//        WebElement newPostTextInputField2 = Browser.waitForElementToBeClickableAndFind(NEW_POST_TEXT_INPUT_FIELD_FINAL_LOCATOR);
-//        newPostTextInputField2.click();
-//        newPostTextInputField2.sendKeys("KL NEW POST Text TEST");
-//
-//        Browser.getWebDriver().switchTo().defaultContent();
-//    }
 
+    @Step("Add title '{postTitle}' and text of a new post")
     public void addTitleAndText(String postTitle) {
         logger.info("Adding title and text for a post");
         addTitleAndText(postTitle, "POST", NEW_POST_PAGE_IFRAME_LOCATOR, NEW_POST_TITLE_INPUT_FIELD_LOCATOR, NEW_POST_TEXT_INPUT_FIELD_INITIAL_LOCATOR, NEW_POST_TEXT_INPUT_FIELD_FINAL_LOCATOR);
     }
 
-
+    @Step("Save draft of a new post")
     public void saveDraft() {
         logger.info("Saving draft of a post");
         WebElement saveDraftButton = Browser.waitForElementToBeClickableAndFind(NEW_POST_SAVE_DRAFT_BUTTON_LOCATOR);
         saveDraftButton.click();
     }
 
+    @Step("Check that 'Saved' is displayed")
     public boolean isSavedButtonDisplayed() {
         try {
             return Browser.waitForElementToBeClickableAndFind(NEW_POST_SAVED_BUTTON_LOCATOR).isDisplayed();
@@ -78,12 +69,14 @@ public class NewPostPage extends BaseEditorPage {
         }
     }
 
+    @Step("Click 'View Posts' button")
     public void viewPostsButtonClick() {
         logger.info("Clicking 'View Posts' button");
         WebElement viewPostsButton = Browser.waitForElementToBeClickableAndFind(VIEW_POSTS_BUTTON);
         viewPostsButton.click();
     }
 
+    @Step("Close 'Welcome to Editor' pop-up if appeared")
     public void closeWelcomeToEditorPopUp() {
         try {
             //  WebElement welcomeToEditorPopUp = Browser.waitForVisibilityOfElementLocatedAndFind(WELCOME_TO_BLOCK_EDITOR_POPUP_LOCATOR);
@@ -97,6 +90,7 @@ public class NewPostPage extends BaseEditorPage {
         }
     }
 
+    @Step("Submit post for review")
     public void submitPostForReview() {
         try {
             logger.info("Submitting a post");
@@ -120,6 +114,7 @@ public class NewPostPage extends BaseEditorPage {
         return postStatus.getText();
     }
 
+    @Step("Publish post")
     public void publishPost() {
         try {
             logger.info("Post publishing");
@@ -138,7 +133,7 @@ public class NewPostPage extends BaseEditorPage {
         }
     }
 
-    public void viewPostButtonCLick() {
+    public void viewPostButtonClick() {
         try {
             logger.info("Clicking 'View Post' button");
             WebElement viewPostButton = Browser.waitForElementToBeClickableAndFind(VIEW_POST_BUTTON_LOCATOR);

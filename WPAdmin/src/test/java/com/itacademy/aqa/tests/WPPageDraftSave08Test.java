@@ -18,7 +18,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class WPPageDraftSave08Test {
-    private static Logger logger = Logger.getLogger(WPPageDraftSave08Test.class);
+    private static final Logger logger = Logger.getLogger(WPPageDraftSave08Test.class);
 
 
     @BeforeMethod
@@ -69,9 +69,10 @@ public class WPPageDraftSave08Test {
 
         NewPagePage newPagePage = new NewPagePage();
         newPagePage.closeChoosePatternPopUp();
-
         newPagePage.addTitleAndText(pageTitle);
+
         logger.info("Saving the page as a draft");
+
         newPagePage.saveDraft();
         Browser.takeScreenShot();
         Browser.saveScreenShot();

@@ -4,15 +4,16 @@ import com.itacademy.aqa.elements.NameBar;
 import com.itacademy.aqa.enums.RolesEnum;
 import org.apache.log4j.Logger;
 
-public class User {  private String username;
-    private String email;
-    private String password;
-    private RolesEnum roleEnum;
+public class User {
+    private final String username;
+    private final String email;
+    private final String password;
+    private final RolesEnum roleEnum;
     private String firstName;
     private String lastName;
     private String website;
 
-    private static Logger logger = Logger.getLogger(NameBar.class);
+    private static final Logger logger = Logger.getLogger(NameBar.class);
 
     public User(String username, String email, String password, RolesEnum roleEnum) {
         this.username = username;

@@ -17,7 +17,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class WPCommentCanBeDeleted13Test {
-    private static Logger logger = Logger.getLogger(WPCommentCanBeDeleted13Test.class);
+    private static final Logger logger = Logger.getLogger(WPCommentCanBeDeleted13Test.class);
 
     @BeforeMethod
     public void initialize() {
@@ -32,7 +32,7 @@ public class WPCommentCanBeDeleted13Test {
     }
 
 
-    @Test
+    @Test(groups = {"regression"})
     @Description("Test13: Comment can be moved to Trash")
     @Severity(SeverityLevel.NORMAL)
     public void CommentCanBeMovedToTrashTest() {
@@ -164,6 +164,8 @@ public class WPCommentCanBeDeleted13Test {
         commentsPage.getLeftMenu().clickOnItem(LeftMenuEnum.POSTS);
         postsPage = new PostsPage();
         postsPage.deletePost("KL post for comment deleting test");
+        Browser.saveScreenShot();
+        Browser.takeScreenShot();
         postsPage.getNameBar().clickLogOut();
         logger.info("User is logged out");
 

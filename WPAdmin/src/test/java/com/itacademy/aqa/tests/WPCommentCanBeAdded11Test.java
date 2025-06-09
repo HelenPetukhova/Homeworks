@@ -31,7 +31,7 @@ public class WPCommentCanBeAdded11Test {
 
 
     //TC11
-    @Test
+    @Test(groups = {"regression", "smoke"})
     @Description("Test11: Comment can added to published post")
     @Severity(SeverityLevel.NORMAL)
     public void commentCanBeAddedToPublishedPost() {
@@ -47,6 +47,7 @@ public class WPCommentCanBeAdded11Test {
 
         DashboardPage dashboardPage = new DashboardPage();
         logger.info("Opening 'Posts' page");
+
         dashboardPage.getLeftMenu().clickOnItem(LeftMenuEnum.POSTS);
 
         PostsPage postsPage = new PostsPage();
@@ -85,8 +86,6 @@ public class WPCommentCanBeAdded11Test {
         wordPressPostPagePage = new WordPressPostPagePage();
 
         System.out.println(wordPressPostPagePage.getCommentText());
-        Browser.saveScreenShot();
-        Browser.takeScreenShot();
         Assert.assertTrue(wordPressPostPagePage.getCommentText().contains(commentTest), "The comment is not displayed after submitting");
         logger.info("Added comment to the post");
 

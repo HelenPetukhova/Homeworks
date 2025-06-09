@@ -4,6 +4,7 @@ import com.itacademy.aqa.config.Browser;
 import com.itacademy.aqa.elements.*;
 import com.itacademy.aqa.enums.BulkActionsEnum;
 import com.itacademy.aqa.enums.StatusFilterMenuEnum;
+import io.qameta.allure.Step;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -13,20 +14,17 @@ import java.util.List;
 
 public class PostsPage extends BaseAdminPage {
 
-    private StatusFilterMenu statusFilterMenu;
-    private BulkActionsDdl bulkActionsDdl;
-    private PostsPagesActionsRow postsPagesActionsRow;
+    private final StatusFilterMenu statusFilterMenu;
+    private final BulkActionsDdl bulkActionsDdl;
+    private final PostsPagesActionsRow postsPagesActionsRow;
     private static final By ALL_POSTS_PAGE_TITLE_LOCATOR = By.xpath("//*[@class ='wp-heading-inline' ][contains(text(),'Posts')]");
     private static final By ADD_NEW_POST_BUTTON_LOCATOR = By.className("page-title-action");
     private static final By ALL_POSTS_TITLES_LOCATOR = By.xpath("//tr/td[contains(@class, 'page-title')]");
     private static final String CHECK_BOX_TO_SELECT_POST_PATTERN_LOCATOR = "//*[contains(text(),'%s')]/../../input";
-    private static final By BULK_ACTIONS_DDL_LOCATOR = By.id("bulk-action-selector-top");
-    private static final String BULK_ACTIONS_OPTION_TEMPLATE_LOCATOR = "//option[@value='%s']";
     private static final By APPLY_BUTTON_LOCATOR = By.id("doaction");
-    private static final String POST_STATUS_FILTER_LINK_TEMPLATE_LOCATOR = "//li[@class='%s']/a";
     private static final String POST_TITLE_LINK_TEMPLATE_LOCATOR = "//td//a[contains(text(),'%s')]";
 
-    private static Logger logger = Logger.getLogger(PostsPage.class);
+    private static final Logger logger = Logger.getLogger(PostsPage.class);
 
     public PostsPage() {
         super();
@@ -46,6 +44,7 @@ public class PostsPage extends BaseAdminPage {
     }
 
 
+    @Step("Check that 'Posts' page is opened")
     public boolean isPageOpened() {
         try {
             WebElement postPageTitle = Browser.waitForVisibilityOfElementLocatedAndFind(ALL_POSTS_PAGE_TITLE_LOCATOR);
@@ -57,7 +56,7 @@ public class PostsPage extends BaseAdminPage {
         }
     }
 
-
+    @Step("Click 'Add New Post' button")
     public void clickAddNewPostButton() {
         logger.info("Clicking 'Add New Post' button");
         WebElement addNewPostButton = Browser.waitForElementToBeClickableAndFind(ADD_NEW_POST_BUTTON_LOCATOR);
@@ -65,6 +64,7 @@ public class PostsPage extends BaseAdminPage {
 
     }
 
+    @Step("Get all posts titles displayed in the list on 'Posts' page")
     public List<String> getAllPostsTitles() {
         logger.info("Getting all the posts titles from the list on 'Posts' page");
 
@@ -79,6 +79,7 @@ public class PostsPage extends BaseAdminPage {
         return allPostsTitles;
     }
 
+    @Step("Check off post with title: '{postTitle}'")
     public void checkOffPost(String postTitle) {
         logger.info("Finding a post " + postTitle + " and check it off");
         String xPath = String.format(CHECK_BOX_TO_SELECT_POST_PATTERN_LOCATOR, postTitle);
@@ -94,7 +95,7 @@ public class PostsPage extends BaseAdminPage {
         applyButton.click();
     }
 
-
+    @Step("Delete post: '{postTitle}'")
     public void deletePost(String postTitle) {
         logger.info("Deleting a post: " + postTitle);
         checkOffPost(postTitle);
@@ -106,6 +107,7 @@ public class PostsPage extends BaseAdminPage {
         clickApplyButton();
     }
 
+    @Step("Click post title to open it")
     public void clickPostTitle(String postTitle) {
         String xPath = String.format(POST_TITLE_LINK_TEMPLATE_LOCATOR, postTitle);
         By postTitleLinkLocator = By.xpath(xPath);
@@ -116,7 +118,6 @@ public class PostsPage extends BaseAdminPage {
     public PostsPagesActionsRow getActionsRow() {
         return postsPagesActionsRow;
     }
-
 
 
 }

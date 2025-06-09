@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 
 public class WPLogin15Test {
     private LoginPage loginPage;
-    private static Logger logger = Logger.getLogger(WPLogin15Test.class);
+    private static final Logger logger = Logger.getLogger(WPLogin15Test.class);
 
     @BeforeMethod
     public void initialize() {
@@ -31,28 +31,31 @@ public class WPLogin15Test {
     }
 
 
-    @Test
+    @Test(groups = {"smoke", "regression"})
     @Description("Test: Login page is available")
     @Severity(SeverityLevel.CRITICAL)
     public void loginPageCanBeOpenedTest() {
         logger.info("Checking that login page is opened");
         Assert.assertTrue(loginPage.isPageOpened(), "'Log In' button is not displayed");
+        Browser.saveScreenShot();
+        Browser.takeScreenShot();
     }
 
 
-    @Test(dataProvider = "userRoleCredentials", dataProviderClass = UserRoleLeftMenuData.class)
+    @Test(dataProvider = "userRoleCredentials", dataProviderClass = UserRoleLeftMenuData.class, groups = {"smoke", "regression"})
     @Description("Test: User with valid credentials can log in WP Admin site")
     // Enter correct login/password of any user and verify that Dashboard/Home page is opened
     public void loginWithCorrectCredentialsTest(String role, String username, String password) {
         logger.info("Logging in as a user with " + role + "role");
         loginPage.doLogin(role, username, password);
-
+        Browser.saveScreenShot();
+        Browser.takeScreenShot();
         DashboardPage dashboardPage = new DashboardPage();
         Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
     }
 
 
-    @Test
+    @Test(groups = "regression")
     @Description("Test15: Login with invalid Credentials") @Severity(SeverityLevel.NORMAL)
     public void loginWithInvalidCredentialsTest() {
         logger.info("Starting test if error message appears when invalid credentials are used for login");
@@ -65,7 +68,8 @@ public class WPLogin15Test {
 
         logger.info("Logging in as a user with randomly generated login and password");
         loginPage.doLogin(randomRole.getValue(), randomUsername, randomPassword);
-
+        Browser.saveScreenShot();
+        Browser.takeScreenShot();
         Assert.assertTrue(loginPage.isErrorMessageForInvalidCredentialsDisplayed(), "Error message is not displayed");
         System.out.println(loginPage.getErrorMessageText());
         Assert.assertEquals(loginPage.getErrorMessageText(), "Error: The username " + randomUsername + " is not registered on this site. If you are unsure of your username, try your email address instead.");

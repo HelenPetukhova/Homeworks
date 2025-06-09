@@ -10,7 +10,7 @@ import java.util.Properties;
 public class Configuration {
     private static Properties properties;
     private static Properties localProperties;
-    private static Logger logger = Logger.getLogger(Configuration.class);
+    private static final Logger logger = Logger.getLogger(Configuration.class);
 
     private Configuration(){}
 
@@ -61,6 +61,10 @@ public class Configuration {
 
     public static String getScreenShotFolder() {
         return properties.getProperty("screenshotFolder");
+    }
+
+    public static String getRemoteDriverUrl() {
+        return properties.getProperty("remoteWebDriverUrl");
     }
 }
 

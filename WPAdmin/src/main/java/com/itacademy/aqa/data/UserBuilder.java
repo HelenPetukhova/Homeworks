@@ -3,6 +3,7 @@ package com.itacademy.aqa.data;
 import com.itacademy.aqa.elements.NameBar;
 import com.itacademy.aqa.enums.RolesEnum;
 import com.itacademy.aqa.utils.RandomUtil;
+import io.qameta.allure.Step;
 import org.apache.log4j.Logger;
 
 public class UserBuilder {
@@ -13,7 +14,7 @@ public class UserBuilder {
     private String firstName = "kl" + RandomUtil.generateRandomString(8);
     private String lastName  = "kl" + RandomUtil.generateRandomString(8);
     private String website  = "kl" + RandomUtil.generateRandomString(8) + ".ts";
-    private static Logger logger = Logger.getLogger(NameBar.class);
+    private static final Logger logger = Logger.getLogger(NameBar.class);
 
 
     public static UserBuilder builder() {
@@ -57,7 +58,7 @@ public class UserBuilder {
 
 
 
-
+    @Step("Create user object with random credentials and role")
     public User build() {
         logger.info("Creating user object with random credentials and role");
 

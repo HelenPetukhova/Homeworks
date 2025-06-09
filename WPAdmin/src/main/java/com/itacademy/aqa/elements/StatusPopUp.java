@@ -12,7 +12,7 @@ public class StatusPopUp {
     private static final By YEAR_INPUT_FIELD_LOCATOR = By.xpath("//input[@id='inspector-input-control-3']");
     private static final By STATUS_POPUP_SCROLL_LOCATOR = By.className("components-popover__content");
 
-    private static Logger logger = Logger.getLogger(StatusPopUp.class);
+    private static final Logger logger = Logger.getLogger(StatusPopUp.class);
 
     public StatusPopUp() {
 

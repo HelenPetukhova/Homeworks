@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 public class NameBar {
-    private static Logger logger = Logger.getLogger(NameBar.class);
+    private static final Logger logger = Logger.getLogger(NameBar.class);
 
     private static final By NAME_BAR_LOCATOR = By.xpath("//*[@id='wp-admin-bar-my-account']/a");
     private static final String NAME_BAR_OPTION_TEMPLATE_LOCATOR = "//*[@id='wp-admin-bar-my-account']//li[@id='%s']/a";
@@ -18,6 +18,7 @@ public class NameBar {
     }
 
 
+    @Step("Click 'Log Out' option in 'Name' bar")
     public void clickLogOut() {
         logger.info("User is logging out through Name bar");
         clickOnItem(NameBarOptionEnum.LOG_OUT);
@@ -35,9 +36,9 @@ public class NameBar {
         logger.info("Hovering over Name Bar");
         actions.moveToElement(nameBar).perform();
 
-        String NAME_BAR_OPTION_LOCATOR = String.format(NAME_BAR_OPTION_TEMPLATE_LOCATOR, nameBarOptionEnum.getValue());
-        logger.debug("Creating locator for Name dropdown list option by locator: " + NAME_BAR_OPTION_LOCATOR);
-        By xPath = By.xpath(NAME_BAR_OPTION_LOCATOR);
+        String nameBarOptionLocator = String.format(NAME_BAR_OPTION_TEMPLATE_LOCATOR, nameBarOptionEnum.getValue());
+        logger.debug("Creating locator for Name dropdown list option by locator: " + nameBarOptionLocator);
+        By xPath = By.xpath(nameBarOptionLocator);
 
         WebElement nameBarOption = Browser.waitForElementToBeClickableAndFind(xPath);
         nameBarOption.click();

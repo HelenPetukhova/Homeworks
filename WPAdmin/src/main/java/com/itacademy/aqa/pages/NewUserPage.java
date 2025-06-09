@@ -3,6 +3,7 @@ package com.itacademy.aqa.pages;
 import com.itacademy.aqa.config.Browser;
 import com.itacademy.aqa.data.User;
 import com.itacademy.aqa.enums.RolesEnum;
+import io.qameta.allure.Step;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NotFoundException;
@@ -20,7 +21,7 @@ public class NewUserPage extends BaseAdminPage {
     private static final By ROLE_DDL_LOCATOR = By.id("role");
     private static final By ADD_NEW_USER_BUTTON_LOCATOR = By.id("createusersub");
 
-    private static Logger logger = Logger.getLogger(NewUserPage.class);
+    private static final Logger logger = Logger.getLogger(NewUserPage.class);
 
     public NewUserPage() {
         super();
@@ -31,12 +32,13 @@ public class NewUserPage extends BaseAdminPage {
     public boolean isPageOpened() {
         try {
             return Browser.waitForVisibilityOfElementLocatedAndFind(ADD_NEW_USER_TITLE_LOCATOR).isDisplayed();
-        } catch (NotFoundException ex) {
+        } catch (RuntimeException ex) {
             return false;
         }
     }
 
-    public void feelUsernameField(String userName) {
+    @Step("Enter username")
+    public void fillUsernameField(String userName) {
         logger.info("Filling 'Username' field");
         WebElement usernameField = Browser.waitForElementToBeClickableAndFind(USERNAME_FIELD_LOCATOR);
         usernameField.clear();
@@ -44,7 +46,8 @@ public class NewUserPage extends BaseAdminPage {
         usernameField.sendKeys(userName);
     }
 
-    public void feelEmailField(String email) {
+    @Step("Enter email")
+    public void fillEmailField(String email) {
         logger.info("Filling 'Email' field");
         WebElement emailField = Browser.waitForElementToBeClickableAndFind(EMAIL_FIELD_LOCATOR);
         emailField.clear();
@@ -52,7 +55,8 @@ public class NewUserPage extends BaseAdminPage {
         emailField.sendKeys(email);
     }
 
-    public void feelFirstNameField(String firstName) {
+    @Step("Enter First Name")
+    public void fillFirstNameField(String firstName) {
         logger.info("Filling 'First Name' field");
         WebElement firstNameField = Browser.waitForElementToBeClickableAndFind(FIRST_NAME_FIELD_LOCATOR);
         firstNameField.clear();
@@ -60,8 +64,8 @@ public class NewUserPage extends BaseAdminPage {
         firstNameField.sendKeys(firstName);
     }
 
-
-    public void feelLastNameField(String lastName) {
+    @Step("Enter Last Name")
+    public void fillLastNameField(String lastName) {
         logger.info("Filling 'Last Name' field");
         WebElement lastNameField = Browser.waitForElementToBeClickableAndFind(LAST_NAME_FIELD_LOCATOR);
         lastNameField.clear();
@@ -69,8 +73,8 @@ public class NewUserPage extends BaseAdminPage {
         lastNameField.sendKeys(lastName);
     }
 
-
-    public void feelWebsiteField(String website) {
+    @Step("Enter website")
+    public void fillWebsiteField(String website) {
         logger.info("Filling 'Website' field");
         WebElement websiteField = Browser.waitForElementToBeClickableAndFind(WEBSITE_FIELD_LOCATOR);
         websiteField.clear();
@@ -78,13 +82,13 @@ public class NewUserPage extends BaseAdminPage {
         websiteField.sendKeys(website);
     }
 
-
-    public void feelPasswordField(String website) {
+    @Step("Enter password")
+    public void fillPasswordField(String password) {
         logger.info("Filling 'Password' field");
         WebElement passwordField = Browser.waitForElementToBeClickableAndFind(PASSWORD_FIELD_LOCATOR);
         passwordField.clear();
-        //    String website = RandomUtil.generateRandomString(10) + ".kltest";
-        passwordField.sendKeys(website);
+        //    String password = RandomUtil.generateRandomString(10);
+        passwordField.sendKeys(password);
     }
 
     public String getPassword() {
@@ -93,7 +97,7 @@ public class NewUserPage extends BaseAdminPage {
 
     }
 
-
+    @Step("Select a user's role")
     public void selectRole(RolesEnum rolesEnum) {
         logger.info("Selecting user's role: " + rolesEnum);
 
@@ -108,6 +112,7 @@ public class NewUserPage extends BaseAdminPage {
 
     }
 
+    @Step("Click 'Add New User' button")
     public void clickAddNewUserButton() {
         logger.info("Clicking 'Add New User' button");
 
@@ -115,20 +120,18 @@ public class NewUserPage extends BaseAdminPage {
         addNewUserButton.click();
     }
 
-
+    @Step("Fill all the fields of 'Add New User' form")
     public void feelAddNewUserForm(User user) {
         logger.info("Filling all the fields on 'Add New User' form");
-        feelUsernameField(user.getUsername());
-        feelEmailField(user.getEmail());
-        feelFirstNameField(user.getFirstName());
-        feelLastNameField(user.getLastName());
-        feelWebsiteField(user.getWebsite());
-        feelPasswordField(user.getPassword());
+        fillUsernameField(user.getUsername());
+        fillEmailField(user.getEmail());
+        fillFirstNameField(user.getFirstName());
+        fillLastNameField(user.getLastName());
+        fillWebsiteField(user.getWebsite());
+        fillPasswordField(user.getPassword());
         selectRole(user.getRoleEnum());
         clickAddNewUserButton();
     }
-
-
 
 
 }

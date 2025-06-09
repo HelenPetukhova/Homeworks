@@ -7,9 +7,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 public abstract class BaseEditorPage extends BaseWPPage{
-    private static Logger logger = Logger.getLogger(BaseEditorPage.class);
+    private static final Logger logger = Logger.getLogger(BaseEditorPage.class);
 
-    private StatusPopUp statusPopUp;
+    private final StatusPopUp statusPopUp;
 
 
     protected BaseEditorPage() {
@@ -27,16 +27,19 @@ public abstract class BaseEditorPage extends BaseWPPage{
         logger.info("Filling title in iframe");
         WebElement frame = Browser.waitForVisibilityOfElementLocatedAndFind(iframeLocator); //можно упростить до //*[@name="editor-canvas"], //iframe тоже уникальный
         Browser.getWebDriver().switchTo().frame(frame);
-        WebElement newPostTitleInputField = Browser.waitForElementToBeClickableAndFind(titleInputFieldLocator);
-        newPostTitleInputField.sendKeys(title);
+        try {
+            WebElement newPostTitleInputField = Browser.waitForElementToBeClickableAndFind(titleInputFieldLocator);
+            newPostTitleInputField.sendKeys(title);
 
-        logger.info("Filling text in text block of iframe");
-        WebElement newPostTextInputField = Browser.waitForElementToBeClickableAndFind(inputFieldInitialLocator);
-        newPostTextInputField.click();
-        WebElement newPostTextInputField2 = Browser.waitForElementToBeClickableAndFind(inputFieldFinalLocator);
-        newPostTextInputField2.click();
-        newPostTextInputField2.sendKeys("KL NEW " + contentType + " Text TEST");
-
+            logger.info("Filling text in text block of iframe");
+            WebElement newPostTextInputField = Browser.waitForElementToBeClickableAndFind(inputFieldInitialLocator);
+            newPostTextInputField.click();
+            WebElement newPostTextInputField2 = Browser.waitForElementToBeClickableAndFind(inputFieldFinalLocator);
+            newPostTextInputField2.click();
+            newPostTextInputField2.sendKeys("KL NEW " + contentType + " Text TEST");
+        } catch (RuntimeException e) {
+            logger.error("Cannot add text to editor");
+        }
         Browser.getWebDriver().switchTo().defaultContent();
     }
 }

@@ -20,7 +20,7 @@ public class Browser {
 
     public static final int TIME_OUT_IN_SECONDS = 20;
     public static final int DEFAULT_TIMEOUT = 10;
-    private static Logger logger = Logger.getLogger(Browser.class);
+    private static final Logger logger = Logger.getLogger(Browser.class);
 
     //чтобы объект этого класса нельзя было создать, делаем приватный конструктор
     private Browser() {
@@ -80,6 +80,20 @@ public class Browser {
 
     }
 
+
+    public static boolean waitForInvisibilityOfElementLocated(By locator) {
+        logger.info("Waiting for element to be invisible: " + locator);
+        try {
+            WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(TIME_OUT_IN_SECONDS));
+            return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+        } catch (TimeoutException e) {
+            logger.warn("Element did not become invisible within timeout: " + locator);
+            return false;
+        } catch (Exception e) {
+            logger.error("Unexpected error while waiting for element to become invisible: " + locator);
+            return false;
+        }
+    }
 
     public static void waitForElementToBeClickable(WebElement webElement) {
         logger.info("Waiting for web element to be clickable");

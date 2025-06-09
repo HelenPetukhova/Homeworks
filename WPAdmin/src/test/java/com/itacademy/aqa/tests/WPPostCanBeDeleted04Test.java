@@ -16,7 +16,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class WPPostCanBeDeleted04Test {
-    private static Logger logger = Logger.getLogger(WPPostCanBeDeleted04Test.class);
+    private static final Logger logger = Logger.getLogger(WPPostCanBeDeleted04Test.class);
 
 
     @BeforeMethod
@@ -27,50 +27,63 @@ public class WPPostCanBeDeleted04Test {
     }
 
 
-    @Test
+    @Test(groups = {"smoke, regression"})
     @Description("Test04: Post can be deleted")
     @Severity(SeverityLevel.CRITICAL)
-    public void PostCanBeDeletedTest(){
+    public void PostCanBeDeletedTest() {
         logger.info("Starting test: Post can be deleted");
         LoginPage loginPage = new LoginPage();
+
         logger.info("Admin user is logging in");
-        loginPage.doLogin("Admin", Configuration.getProperties().getProperty("adminUserName"),Configuration.getProperties().getProperty("adminPassword")); //admin, editor, author(only his post)
+
+        loginPage.doLogin("Admin", Configuration.getProperties().getProperty("adminUserName"), Configuration.getProperties().getProperty("adminPassword")); //admin, editor, author(only his post)
 
         logger.info("Opening 'Posts' page");
+
         DashboardPage dashboardPage = new DashboardPage();
         dashboardPage.getLeftMenu().clickOnItem(LeftMenuEnum.POSTS);
 
         PostsPage postsPage = new PostsPage();
         Assert.assertTrue(postsPage.isPageOpened(), "Posts page is not opened");
+
         logger.info("Adding a new post");
+
         postsPage.clickAddNewPostButton();
 
         NewPostPage newPostPage = new NewPostPage();
         Assert.assertTrue(newPostPage.isPageOpened(), "Add New Post page is not opened");
 
         logger.info("Filling title and text of the post");
+
         newPostPage.addTitleAndText("KL Post to delete");
+
         logger.info("Publishing the post");
+
         newPostPage.publishPost();
 
         logger.info("Opening post on WordPress site");
-        newPostPage.viewPostButtonCLick();
+
+        newPostPage.viewPostButtonClick();
 
         WordPressPostPagePage wordPressPostPage = new WordPressPostPagePage();
         Assert.assertEquals(wordPressPostPage.getPostTitle(), "KL Post to delete", "The title of the post is not found");
-        logger.info("Found the title of created WordPress Post page");
 
+        logger.info("Found the title of created WordPress Post page");
         logger.info("Opening Main WordPress page");
+
         wordPressPostPage.clickWordPressOnAzureLink();
 
         WordPressMainPage wordPressMainPage = new WordPressMainPage();
         Assert.assertTrue(wordPressMainPage.getAllPostsTitles().contains("KL Post to delete"), "New post is not displayed on WordPress main page");
+        Browser.saveScreenShot();
+        Browser.takeScreenShot();
         logger.info("Found the link of created WordPress Post on Main WordPress page");
-
         logger.info("Opening WP Admin page");
+
         wordPressMainPage.getWordPressOnAzureDdl().wordPressOnAzureDdlClick();
 
         logger.info("Opening WP Admin Posts page");
+
         dashboardPage = new DashboardPage();
         dashboardPage.getLeftMenu().clickOnItem(LeftMenuEnum.POSTS);
 
@@ -83,14 +96,16 @@ public class WPPostCanBeDeleted04Test {
         // Сейчас отображается и сейчас assert этому соответствует, но это кажется неправильным поведением
         Assert.assertTrue(wordPressMainPage.getAllPostsTitles().contains("KL Post to delete"), "New post is not displayed on WordPress main page");
         logger.info("Found moved to trash post's link on WordPress Main page");
-
         logger.info("Opening WP Admin Posts page");
+        Browser.saveScreenShot();
+        Browser.takeScreenShot();
         wordPressMainPage.getWordPressOnAzureDdl().wordPressOnAzureDdlClick();
 
         dashboardPage = new DashboardPage();
         dashboardPage.getLeftMenu().clickOnItem(LeftMenuEnum.POSTS);
 
         logger.info("Filter posts by status: " + StatusFilterMenuEnum.TRASH);
+
         postsPage = new PostsPage();
         postsPage.getStatusFilterMenu().clickOnItem(StatusFilterMenuEnum.TRASH);
 
@@ -100,6 +115,8 @@ public class WPPostCanBeDeleted04Test {
 
         wordPressMainPage = new WordPressMainPage();
         Assert.assertFalse(wordPressMainPage.getAllPostsTitles().contains("KL Post to delete"), "Deleted post is displayed on WordPress main page");
+        Browser.saveScreenShot();
+        Browser.takeScreenShot();
         logger.info("Deleted post's link is not displayed on the WordPress Main page");
 
         wordPressMainPage.getWordPressOnAzureDdl().wordPressOnAzureDdlClick();
@@ -109,6 +126,7 @@ public class WPPostCanBeDeleted04Test {
         logger.info("User logged out");
 
     }
+
 
     @AfterMethod
     public void tearDown() {

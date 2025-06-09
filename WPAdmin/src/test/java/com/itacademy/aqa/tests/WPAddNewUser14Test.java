@@ -19,7 +19,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class WPAddNewUser14Test {
-    private static Logger logger = Logger.getLogger(WPAddNewUser14Test.class);
+    private static final Logger logger = Logger.getLogger(WPAddNewUser14Test.class);
 
     @BeforeMethod
     public void initialize() {
@@ -30,7 +30,7 @@ public class WPAddNewUser14Test {
 
 
     // TC14
-    @Test
+    @Test(groups = {"smoke", "regression"})
     @Description("Test14: Create a new user")
     @Severity(SeverityLevel.NORMAL)
     public void createNewUserTest() {
@@ -56,17 +56,20 @@ public class WPAddNewUser14Test {
 
         NewUserPage newUserPage = new NewUserPage();
         newUserPage.feelAddNewUserForm(user);
-
+        Browser.saveScreenShot();
+        Browser.takeScreenShot();
         usersPage = new UsersPage();
         Assert.assertTrue(usersPage.getAllUsernames().contains(user.getUsername()), "User is not displayed in Users table");
 
         usersPage.getNameBar().clickLogOut();
         logger.info("Admin user is logged out");
-
         logger.info("Logging in as a new user");
+
         loginPage = new LoginPage();
         loginPage.doLogin(user.getRoleEnum().getValue(), user.getUsername(), user.getPassword());
         dashboardPage = new DashboardPage();
+        Browser.saveScreenShot();
+        Browser.takeScreenShot();
         Assert.assertTrue(dashboardPage.isPageOpened(), "New user cannot login");
         logger.info("The user is logged in");
         usersPage.getNameBar().clickLogOut();
@@ -83,6 +86,7 @@ public class WPAddNewUser14Test {
         usersPage.getNameBar().clickLogOut();
 
     }
+
 
 
     @AfterMethod

@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 public class WPMedia050607Test {
     private LoginPage loginPage;
     private MediaPage mediaPage;
-    private static Logger logger = Logger.getLogger(WPMedia050607Test.class);
+    private static final Logger logger = Logger.getLogger(WPMedia050607Test.class);
 
 
     @BeforeMethod
@@ -37,12 +37,7 @@ public class WPMedia050607Test {
     }
 
 
-//TC05
-    //1.Спрятать логин и пароль +
-    //2.Добавить логи +
-    //3.Добавить описание степов
-
-    @Test
+    @Test(groups = {"smoke", "regression"})
     @Description("Test05: Media-file <50MB can be added") @Severity(SeverityLevel.CRITICAL)
     public void AddNewMediaFileTest() {
 
@@ -56,7 +51,7 @@ public class WPMedia050607Test {
     }
 
 
-    @Test
+    @Test(groups = {"regression"})
     @Description("Test06: Media-file >50MB can not be added") @Severity(SeverityLevel.NORMAL)
     public void bigFileIsNotUploadedTest() {
 
@@ -70,7 +65,7 @@ public class WPMedia050607Test {
     }
 
 
-    @Test
+    @Test(groups = {"smoke", "regression"})
     @Description("Test07: Media file can be deleted") @Severity(SeverityLevel.NORMAL)
     public void MediaFileCanBeDeletedTest() {
 
@@ -80,8 +75,11 @@ public class WPMedia050607Test {
         Browser.takeScreenShot();
         logger.info("Deleting uploaded file");
         mediaPage.deleteUploadedFile();
+        mediaPage.getLeftMenu().clickOnItem(LeftMenuEnum.MEDIA);
         Assert.assertTrue(mediaPage.isMediaFileDeleted(), "Media file is not deleted");
         logger.info("The file is deleted");
+        Browser.saveScreenShot();
+        Browser.takeScreenShot();
     }
 
     @AfterMethod

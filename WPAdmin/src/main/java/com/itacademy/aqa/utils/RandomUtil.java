@@ -1,6 +1,5 @@
 package com.itacademy.aqa.utils;
 
-
 import com.itacademy.aqa.enums.RolesEnum;
 
 import java.util.Random;

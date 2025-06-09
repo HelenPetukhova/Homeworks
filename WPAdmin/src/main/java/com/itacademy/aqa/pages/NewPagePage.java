@@ -2,6 +2,7 @@ package com.itacademy.aqa.pages;
 
 import com.itacademy.aqa.config.Browser;
 import com.itacademy.aqa.enums.ItemStatusEnum;
+import io.qameta.allure.Step;
 import org.apache.log4j.Logger;
 
 import org.openqa.selenium.By;
@@ -28,10 +29,12 @@ public class NewPagePage extends BaseEditorPage {
     private static final By SCHEDULE_BUTTON_LOCATOR = By.xpath("//*[@class='editor-header__settings']//button[.='Schedule']");
     private static final By SCHEDULE_BUTTON_SECOND_LOCATOR = By.className("editor-post-publish-panel__header-publish-button");
     private static final By POST_PUBLISH_PANEL_LOCATOR = By.className("post-publish-panel__postpublish");
-    private static final By PAGE_ADDRESS_INPUT_FILED_LOCATOR = By.className("components-text-control__input");
+    private static final By PAGE_ADDRESS_INPUT_FIELD_LOCATOR = By.className("components-text-control__input");
+    private static final By PAGE_LINK_ON_PAGE_TAB_LOCATOR = By.xpath("//*[@class='editor-post-panel__row-label'][.='Link']/..//button");
+    private static final By PAGE_LINK_ON_LINK_POPUP = By.xpath("//*[contains(@class,'components-base-control')]//*[@class='components-external-link__contents']");
 
 
-    private static Logger logger = Logger.getLogger(NewPagePage.class);
+    private static final Logger logger = Logger.getLogger(NewPagePage.class);
 
     public NewPagePage() {
         super();
@@ -39,16 +42,18 @@ public class NewPagePage extends BaseEditorPage {
 
 
     @Override
+    @Step("Check if page to create/edit new page is opened")
     public boolean isPageOpened() {
         try {
             logger.info("Finding Page tab on 'Page editor/creator' page");
             return Browser.waitForElementToBeClickableAndFind(PAGE_TAB_LOCATOR).isDisplayed();
-        } catch (NotFoundException ex) {
+        } catch (RuntimeException ex) {
             logger.error("'Page editor/creator' page is not opened");
             return false;
         }
     }
 
+    @Step("Close 'Choose a Pattern' pop-up if appears")
     public void closeChoosePatternPopUp() {
         try {
             WebElement closeButton = Browser.waitForElementToBeClickableAndFind(CHOOSE_PATTERN_POPUP_CLOSE_BUTTON_LOCATOR);
@@ -59,33 +64,21 @@ public class NewPagePage extends BaseEditorPage {
         }
     }
 
-//    public void addTitleAndText(String pageTitle) {
-//        WebElement frame = Browser.waitForVisibilityOfElementLocatedAndFind(NEW_PAGE_PAGE_IFRAME_LOCATOR); //можно упростить до //*[@name="editor-canvas"], //iframe тоже уникальный
-//        Browser.getWebDriver().switchTo().frame(frame);
-//        WebElement newPageTitleInputField = Browser.waitForElementToBeClickableAndFind(NEW_PAGE_TITLE_INPUT_FIELD_LOCATOR);
-//        newPageTitleInputField.sendKeys(pageTitle);
-//
-//        WebElement newPageTextInputField = Browser.waitForElementToBeClickableAndFind(NEW_PAGE_TEXT_INPUT_FIELD_INITIAL_LOCATOR);
-//        newPageTextInputField.click();
-//        WebElement newPostTextInputField2 = Browser.waitForElementToBeClickableAndFind(NEW_PAGE_TEXT_INPUT_FIELD_FINAL_LOCATOR);
-//        newPostTextInputField2.click();
-//        newPostTextInputField2.sendKeys("KL NEW PAGE Text TEST");
-//
-//        Browser.getWebDriver().switchTo().defaultContent();
-//    }
 
-
+    @Step("Add a page with the title '{pageTitle}'")
     public void addTitleAndText(String pageTitle) {
         logger.info("Adding title and text on page");
         addTitleAndText(pageTitle, "PAGE", NEW_PAGE_PAGE_IFRAME_LOCATOR, NEW_PAGE_TITLE_INPUT_FIELD_LOCATOR, NEW_PAGE_TEXT_INPUT_FIELD_INITIAL_LOCATOR, NEW_PAGE_TEXT_INPUT_FIELD_FINAL_LOCATOR);
     }
 
+    @Step("Click 'Save Draft' button")
     public void saveDraft() {
         logger.info("Saving draft of a new page");
         WebElement saveDraftButton = Browser.waitForElementToBeClickableAndFind(NEW_PAGE_SAVE_DRAFT_BUTTON_LOCATOR);
         saveDraftButton.click();
     }
 
+    @Step("Check if 'Saved' is displayed instead of 'Save Draft' button")
     public boolean isSavedButtonDisplayed() {
         try {
             logger.info("Finding that 'Saved' is displayed instead of 'Save Draft' button");
@@ -96,24 +89,29 @@ public class NewPagePage extends BaseEditorPage {
         }
     }
 
+    @Step("Click 'View Pages' button")
     public void viewPagesButtonClick() {
         logger.info("Clicking 'View Pages' button");
         WebElement viewPostsButton = Browser.waitForElementToBeClickableAndFind(VIEW_PAGES_BUTTON);
         viewPostsButton.click();
     }
 
+    @Step("Get status of page on 'Page' tab of side panel")
     public String getPageStatus() {
         logger.info("Getting status of page on 'Page Editor' page");
         WebElement pageStatusLink = Browser.waitForElementToBeClickableAndFind(PAGE_STATUS_LINK_LOCATOR);
         return pageStatusLink.getText().trim();
     }
 
+    @Step("Click 'Save' button")
     public void clickSaveButton() {
+        logger.info("Clicking 'Save' button");
         WebElement saveButton = Browser.waitForElementToBeClickableAndFind(SAVE_BUTTON_LOCATOR);
         saveButton.click();
     }
 
-    public void changePageStatus(ItemStatusEnum itemStatusEnum) throws InterruptedException {
+    @Step("Change page status throw status pop-up")
+    public void changePageStatus(ItemStatusEnum itemStatusEnum) {
         logger.info("Changing page status throw status pop-up");
         WebElement pageStatusLink = Browser.waitForElementToBeClickableAndFind(PAGE_STATUS_LINK_LOCATOR);
         pageStatusLink.click();
@@ -127,7 +125,9 @@ public class NewPagePage extends BaseEditorPage {
         }
     }
 
+    @Step("Click 'Schedule' button")
     private void clickScheduleButton() {
+        logger.info("Clicking 'Schedule' button");
         WebElement scheduleButton = Browser.waitForElementToBeClickableAndFind(SCHEDULE_BUTTON_LOCATOR);
         scheduleButton.click();
         WebElement scheduleButtonSecond = Browser.waitForElementToBeClickableAndFind(SCHEDULE_BUTTON_SECOND_LOCATOR);
@@ -135,25 +135,48 @@ public class NewPagePage extends BaseEditorPage {
         WebElement postPublishPanel = Browser.waitForElementToBeClickableAndFind(POST_PUBLISH_PANEL_LOCATOR);
     }
 
-
+    @Step("Click 'Publish' button")
     public void clickPublishButton() {
         try {
+            logger.info("Clicking 'Publish' button");
             WebElement publishButton1 = Browser.waitForElementToBeClickableAndFind(PUBLISH_BUTTON_FIRST_LOCATOR);
             publishButton1.click();
             WebElement publishButton2 = Browser.waitForElementToBeClickableAndFind(PUBLISH_BUTTON_SECOND_LOCATOR);
             publishButton2.click();
             WebElement postPublishPanel = Browser.waitForElementToBeClickableAndFind(POST_PUBLISH_PANEL_LOCATOR);
         } catch (RuntimeException ex) {
-            System.out.println("'Publish' button is not displayed");
-            logger.error("'Publish' button is not found");
+            logger.error("'Publish' button is not found", ex);
         }
     }
 
     public String takeNewPageUrl() {
         logger.info("Getting WordPress page URL");
-        WebElement pageAddressField = Browser.waitForVisibilityOfElementLocatedAndFind(PAGE_ADDRESS_INPUT_FILED_LOCATOR);
+        WebElement pageAddressField = Browser.waitForVisibilityOfElementLocatedAndFind(PAGE_ADDRESS_INPUT_FIELD_LOCATOR);
         return pageAddressField.getAttribute("value");
     }
 
+    public void openPageTab() {
+        logger.info("Opening 'Page' tab");
+        WebElement pageTab = Browser.waitForElementToBeClickableAndFind(PAGE_TAB_LOCATOR);
+        pageTab.click();
+    }
+
+    public void pageLinkOnPageTabClick() {
+        logger.info("Clicking page link on 'Page' tab");
+        WebElement pageLink = Browser.waitForElementToBeClickableAndFind(PAGE_LINK_ON_PAGE_TAB_LOCATOR);
+        pageLink.click();
+    }
+
+    public String takeTextOfPageFromLinkPopup() {
+        logger.info("Getting text of link");
+        WebElement draftPageLink = Browser.waitForElementToBeClickableAndFind(PAGE_LINK_ON_LINK_POPUP);
+        return draftPageLink.getText();
+    }
+
+    public String takePageUrlFromSidebar(){
+        openPageTab();
+        pageLinkOnPageTabClick();
+        return takeTextOfPageFromLinkPopup();
+    }
 }
 

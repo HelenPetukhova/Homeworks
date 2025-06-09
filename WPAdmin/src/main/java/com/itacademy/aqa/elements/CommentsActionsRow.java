@@ -2,17 +2,19 @@ package com.itacademy.aqa.elements;
 
 import com.itacademy.aqa.config.Browser;
 import com.itacademy.aqa.enums.ActionsEnum;
+import io.qameta.allure.Step;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 public class CommentsActionsRow {
-    private static Logger logger = Logger.getLogger(CommentsActionsRow.class);
+    private static final Logger logger = Logger.getLogger(CommentsActionsRow.class);
 
     public CommentsActionsRow() {
     }
 
+    @Step("Select the action from comments action row: '{actionsEnum}' for comment '{commentText}'")
     public void clickOnItem(String commentText, ActionsEnum actionsEnum) {
         logger.info("Selecting the action from comments action row: " + actionsEnum + " for comment: " + commentText);
         String commentTextString = String.format("//td[contains(@class,'comment')]//p[text()='%s']", commentText);
@@ -30,6 +32,7 @@ public class CommentsActionsRow {
 
     }
 
+    @Step("Check if action option '{actionsEnum}' is available for comment '{commentText}'")
     public boolean isActionOptionAvailable(String commentText, ActionsEnum actionsEnum) {
         logger.info("Finding if action option available in Actions row");
         String commentTextString = String.format("//td[contains(@class,'comment')]//p[text()='%s']", commentText);
