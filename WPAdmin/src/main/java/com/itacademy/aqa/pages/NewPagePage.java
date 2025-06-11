@@ -170,6 +170,7 @@ public class NewPagePage extends BaseEditorPage {
     public String takeTextOfPageFromLinkPopup() {
         logger.info("Getting text of link");
         WebElement draftPageLink = Browser.waitForElementToBeClickableAndFind(PAGE_LINK_ON_LINK_POPUP);
+        System.out.println(draftPageLink.getText());
         return draftPageLink.getText();
     }
 

@@ -21,7 +21,7 @@ public class WPMedia050607Test {
     private static final Logger logger = Logger.getLogger(WPMedia050607Test.class);
 
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"smoke", "regression"})
     public void initialize() {
         Configuration.getProperties();
         Browser.initDriver();
@@ -43,7 +43,6 @@ public class WPMedia050607Test {
 
         Assert.assertTrue(mediaPage.uploadNewImgFile(), "A new file is not uploaded");
         logger.info("Found uploaded file on 'Media' page");
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         mediaPage.deleteUploadedFile();
         logger.info("Deleted the file");
@@ -59,7 +58,6 @@ public class WPMedia050607Test {
         logger.info("File more 50 MB is not uploaded");
         Assert.assertTrue(mediaPage.isErrorMessageDisplayed(), "Maximum size exceeding message is not displayed");
         logger.info("Maximum size exceeding message is displayed");
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
 
     }
@@ -71,18 +69,16 @@ public class WPMedia050607Test {
 
         logger.info("Uploading a file <50 MB");
         mediaPage.uploadNewImgFile();
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         logger.info("Deleting uploaded file");
         mediaPage.deleteUploadedFile();
         mediaPage.getLeftMenu().clickOnItem(LeftMenuEnum.MEDIA);
         Assert.assertTrue(mediaPage.isMediaFileDeleted(), "Media file is not deleted");
         logger.info("The file is deleted");
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
     }
 
-    @AfterMethod
+    @AfterMethod(groups = {"smoke", "regression"})
     public void tearDown() {
         mediaPage.getNameBar().clickLogOut();
         logger.info("User logged out");

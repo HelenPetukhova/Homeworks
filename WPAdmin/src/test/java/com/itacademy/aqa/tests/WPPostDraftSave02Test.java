@@ -20,21 +20,20 @@ public class WPPostDraftSave02Test {
     private static final Logger logger = Logger.getLogger(WPPostDraftSave02Test.class);
 
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"regression"})
     public void initialize() {
         Configuration.getProperties();
         Browser.initDriver();
         Browser.getWebDriver().get(Configuration.getBaseUrl());
     }
 
-    //TC02
     @Test(dataProvider = "userRoleCredentialsPostCreators", dataProviderClass = UserRoleLeftMenuData.class, groups = {"regression"})
     @Description("Test02: Posts - Draft can be saved")
     @Severity(SeverityLevel.CRITICAL)
     public void savedDraftCanBeFindInPostsTableTest(String role, String userName, String password, String postTitle) {
         logger.info("Starting text that is checking that post draft can be saved");
         LoginPage loginPage = new LoginPage();
-        loginPage.doLogin(role, userName, password); //("Admin","kladmin", "OZ%h*i5Bv*0w89%JgEugD$1V");
+        loginPage.doLogin(role, userName, password);
         logger.info(role + " user is logged in");
 
 
@@ -54,13 +53,11 @@ public class WPPostDraftSave02Test {
 
         logger.info("Saving post draft");
         newPostPage.saveDraft();
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         logger.info("Post draft is saved");
         Assert.assertTrue(newPostPage.isSavedButtonDisplayed(), "Saved button is not displayed");
         logger.info("Opening Posts page with the list of posts");
         newPostPage.viewPostsButtonClick();
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
 
         postsPage = new PostsPage();
@@ -75,7 +72,7 @@ public class WPPostDraftSave02Test {
         postsPage.getNameBar().clickLogOut();
     }
 
-    @AfterMethod
+    @AfterMethod(groups = {"regression"})
     public void tearDown() {
         Browser.close();
 

@@ -22,7 +22,7 @@ public class WPPageStatusCanBeChanged09Test {
     private static final Logger logger = Logger.getLogger(WPPageStatusCanBeChanged09Test.class);
 
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"smoke", "regression"})
     public void initialize() {
         Configuration.getProperties();
         Browser.initDriver();
@@ -70,7 +70,6 @@ public class WPPageStatusCanBeChanged09Test {
         System.out.println("Actual pages list: " + pagesPage.getAllPagesTitles());
         Assert.assertTrue(pagesPage.getAllPagesTitles().contains(expectedPageTitle), "In Pages table there is no title of saved draft with 'Draft' mark");
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         logger.info("Found the draft in Pages list with 'Draft' mark");
         logger.info("Opening the page draft");
 
@@ -84,7 +83,6 @@ public class WPPageStatusCanBeChanged09Test {
         logger.info("Changing the status of the page to " + ItemStatusEnum.PENDING);
         newPagePage.changePageStatus(ItemStatusEnum.PENDING);
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         Assert.assertEquals(newPagePage.getPageStatus(), "Pending", "Status of the page in Settings panel is " + newPagePage.getPageStatus() + "instead of Pending");  // или оставить "Pending" вместо ItemStatusEnum.PENDING.getValue() ?
         logger.info("Found the new status of the page: " + newPagePage.getPageStatus());
         logger.info("Opening 'Pages' page");
@@ -94,7 +92,6 @@ public class WPPageStatusCanBeChanged09Test {
         expectedPageTitle = pageTitle + " — Pending";
         System.out.println("Actual posts list: " + pagesPage.getAllPagesTitles());
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         Assert.assertTrue(pagesPage.isPageOpened(), "'Pages' page is not opened");
         Assert.assertTrue(pagesPage.getAllPagesTitles().contains(expectedPageTitle), "In Pages table there is no title of the page with 'Pending' mark");
         logger.info("Found the page with a new status: Pending");
@@ -129,7 +126,6 @@ public class WPPageStatusCanBeChanged09Test {
         System.out.println("Actual posts list: " + pagesPage.getAllPagesTitles());
         Assert.assertTrue(pagesPage.getAllPagesTitles().contains(expectedPageTitle), "In Pages table there is no title of saved draft with 'Draft' mark");
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         logger.info("Found the draft in Pages list with 'Draft' mark");
         logger.info("Opening the page draft");
         pagesPage.clickPageTitle(pageTitle);
@@ -138,14 +134,12 @@ public class WPPageStatusCanBeChanged09Test {
         Assert.assertTrue(newPagePage.isPageOpened(), "The draft of the page is not displayed");
         Assert.assertEquals(newPagePage.getPageStatus(), "Draft", "The wrong page's status is displayed. Should be 'Draft'");
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
 
         logger.info("Found 'Draft' status on editor page");
         logger.info("Changing the status of the page to " + ItemStatusEnum.PRIVATE);
 
         newPagePage.changePageStatus(ItemStatusEnum.PRIVATE);
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         Assert.assertEquals(newPagePage.getPageStatus(), "Private", "Status of the page in Settings panel is " + newPagePage.getPageStatus() + "instead of Private");  // или оставить "Pending" вместо ItemStatusEnum.PENDING.getValue() ?
 
         logger.info("Found the new status of the page: " + newPagePage.getPageStatus());
@@ -153,7 +147,6 @@ public class WPPageStatusCanBeChanged09Test {
 
         newPagePage.viewPagesButtonClick();
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
 
         pagesPage = new PagesPage();
         expectedPageTitle = pageTitle + " — Private";
@@ -192,7 +185,6 @@ public class WPPageStatusCanBeChanged09Test {
         System.out.println("Actual posts list: " + pagesPage.getAllPagesTitles());
         Assert.assertTrue(pagesPage.getAllPagesTitles().contains(expectedPageTitle), "In Pages table there is no title of saved draft with 'Draft' mark");
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
 
         logger.info("Found the draft in Pages list with 'Draft' mark");
         logger.info("Opening the page draft");
@@ -208,13 +200,11 @@ public class WPPageStatusCanBeChanged09Test {
 
         newPagePage.changePageStatus(ItemStatusEnum.SCHEDULED);
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         Assert.assertEquals(newPagePage.getPageStatus(), "Scheduled", "Status of the page in Settings panel is " + newPagePage.getPageStatus() + "instead of Scheduled");
         logger.info("Opening 'Pages' page");
 
         newPagePage.viewPagesButtonClick();
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
 
         pagesPage = new PagesPage();
         expectedPageTitle = pageTitle + " — Scheduled";
@@ -253,7 +243,6 @@ public class WPPageStatusCanBeChanged09Test {
         System.out.println("Actual posts list: " + pagesPage.getAllPagesTitles());
         Assert.assertTrue(pagesPage.getAllPagesTitles().contains(expectedPageTitle), "In Pages table there is no title of saved draft with 'Draft' mark");
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
 
         logger.info("Found the draft in Pages list with 'Draft' mark");
         logger.info("Opening the page draft");
@@ -269,14 +258,12 @@ public class WPPageStatusCanBeChanged09Test {
 
         newPagePage.changePageStatus(ItemStatusEnum.PUBLISHED);
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         Assert.assertEquals(newPagePage.getPageStatus(), "Published", "Status of the page in Settings panel is " + newPagePage.getPageStatus() + "instead of Published");
         logger.info("Found the new status of the page: " + newPagePage.getPageStatus());
         logger.info("Opening 'Pages' page");
 
         newPagePage.viewPagesButtonClick();
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
 
         pagesPage = new PagesPage();
         expectedPageTitle = pageTitle;
@@ -293,7 +280,7 @@ public class WPPageStatusCanBeChanged09Test {
 
 
 
-    @AfterMethod
+    @AfterMethod(groups = {"smoke", "regression"})
     public void tearDown() {
 
         Browser.close();

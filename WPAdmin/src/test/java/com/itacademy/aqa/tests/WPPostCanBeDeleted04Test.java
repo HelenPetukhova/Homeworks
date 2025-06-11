@@ -19,7 +19,7 @@ public class WPPostCanBeDeleted04Test {
     private static final Logger logger = Logger.getLogger(WPPostCanBeDeleted04Test.class);
 
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"smoke", "regression"})
     public void initialize() {
         Configuration.getProperties();
         Browser.initDriver();
@@ -75,7 +75,6 @@ public class WPPostCanBeDeleted04Test {
 
         WordPressMainPage wordPressMainPage = new WordPressMainPage();
         Assert.assertTrue(wordPressMainPage.getAllPostsTitles().contains("KL Post to delete"), "New post is not displayed on WordPress main page");
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         logger.info("Found the link of created WordPress Post on Main WordPress page");
         logger.info("Opening WP Admin page");
@@ -97,7 +96,6 @@ public class WPPostCanBeDeleted04Test {
         Assert.assertTrue(wordPressMainPage.getAllPostsTitles().contains("KL Post to delete"), "New post is not displayed on WordPress main page");
         logger.info("Found moved to trash post's link on WordPress Main page");
         logger.info("Opening WP Admin Posts page");
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         wordPressMainPage.getWordPressOnAzureDdl().wordPressOnAzureDdlClick();
 
@@ -115,7 +113,6 @@ public class WPPostCanBeDeleted04Test {
 
         wordPressMainPage = new WordPressMainPage();
         Assert.assertFalse(wordPressMainPage.getAllPostsTitles().contains("KL Post to delete"), "Deleted post is displayed on WordPress main page");
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         logger.info("Deleted post's link is not displayed on the WordPress Main page");
 
@@ -128,7 +125,7 @@ public class WPPostCanBeDeleted04Test {
     }
 
 
-    @AfterMethod
+    @AfterMethod(groups = {"smoke", "regression"})
     public void tearDown() {
         Browser.close();
 

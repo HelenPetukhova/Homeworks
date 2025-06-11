@@ -22,7 +22,7 @@ public class WPUsersMenu01Test {
 
     private static final Logger logger = Logger.getLogger(WPUsersMenu01Test.class);
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"regression", "smoke"})
     public void initialize() {
         Configuration.getProperties();
         Browser.initDriver();
@@ -30,7 +30,7 @@ public class WPUsersMenu01Test {
     }
 
 
-    @Test(dataProvider = "userRoleLeftMenuData", dataProviderClass = UserRoleLeftMenuData.class)
+    @Test(dataProvider = "userRoleLeftMenuData", dataProviderClass = UserRoleLeftMenuData.class, groups = {"regression", "smoke"})
     @Description("Test01: Left Menu depends on user's role")
     @Severity(SeverityLevel.CRITICAL)
     public void leftMenuDependsOnUserRolesTest(String role, String username, String password, List<String> expectedLeftMenuItems) {
@@ -48,14 +48,13 @@ public class WPUsersMenu01Test {
         Assert.assertEquals(dashboardPage.getLeftMenu().getLeftMenuItemsTitles(), expectedLeftMenuItems, "Displayed left menu items doesn't correspond to user's role: " + role);
         logger.debug("Taking a screenshot of the page after login");
         Browser.saveScreenShot();
-        Browser.takeScreenShot();
         logger.info("User is logging out");
         dashboardPage.getNameBar().clickLogOut();
         logger.info("The test is finished");
     }
 
 
-    @AfterMethod
+    @AfterMethod(groups = {"regression", "smoke"})
     public void tearDown() {
         logger.info("Browser is closing");
         Browser.close();

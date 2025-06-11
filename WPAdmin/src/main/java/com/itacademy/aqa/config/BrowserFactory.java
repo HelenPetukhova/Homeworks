@@ -1,5 +1,6 @@
 package com.itacademy.aqa.config;
 
+import com.itacademy.aqa.enums.BrowserEnum;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,9 +15,9 @@ import java.net.URL;
 public class BrowserFactory {
     private static final Logger logger = Logger.getLogger(BrowserFactory.class);
 
-    static {
-        System.setProperty("webdriver.chrome.driver", "c:/chromedriver.exe");
-    }
+//    static {
+//        System.setProperty("webdriver.chrome.driver", "c:/chromedriver.exe");
+//    }
 
     public static WebDriver createDriver(BrowserEnum browserEnum) {
         logger.info("Creating webDriver for browser: " + browserEnum);
@@ -26,10 +27,6 @@ public class BrowserFactory {
 
             case CHROME -> {
                 ChromeOptions chromeOptions = new ChromeOptions();
-//                Map<String, Object> prefs = new HashMap<>();
-//                prefs.put("download.default_directory", "C:\\Users\\HP\\Downloads");
-//                prefs.put("browser.helperApps.neverAsk.saveToDisk", "application/pdf:text/csv;application/octet-stream;application/x-msdownload");
-//                chromeOptions.setExperimentalOption("prefs", prefs);
                 webDriver = new ChromeDriver(chromeOptions);
                 logger.info("ChromeDriver created");
             }

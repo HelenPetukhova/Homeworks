@@ -1,4 +1,4 @@
-package com.itacademy.aqa.config;
+package com.itacademy.aqa.enums;
 
 public enum BrowserEnum {
     CHROME,

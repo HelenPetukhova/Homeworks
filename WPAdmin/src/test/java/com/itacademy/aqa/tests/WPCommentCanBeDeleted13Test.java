@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
 public class WPCommentCanBeDeleted13Test {
     private static final Logger logger = Logger.getLogger(WPCommentCanBeDeleted13Test.class);
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"regression"})
     public void initialize() {
         Configuration.getProperties();
         System.out.println(Configuration.getProperties().get("adminPassword"));
@@ -107,7 +107,6 @@ public class WPCommentCanBeDeleted13Test {
         Browser.getWebDriver().get(pageUrl);
 
         wordPressPostPagePage = new WordPressPostPagePage();
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         Assert.assertTrue(wordPressPostPagePage.getCommentText().contains(commentText));
         Assert.assertTrue(wordPressPostPagePage.getCommentAuthorByCommentText(commentText).contains("KL Commentator Approved Name"));
@@ -136,7 +135,6 @@ public class WPCommentCanBeDeleted13Test {
         logger.info("Opening publish post on Word Press using URL: " + pageUrl);
         Browser.getWebDriver().get(pageUrl);
         wordPressPostPagePage = new WordPressPostPagePage();
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         Assert.assertFalse(wordPressPostPagePage.isCommentDisplayed(commentText), "Moved to Trash comment is still displayed");
         logger.info("The comment that is moved to trash is not found on Word Press Post page");
@@ -164,7 +162,6 @@ public class WPCommentCanBeDeleted13Test {
         commentsPage.getLeftMenu().clickOnItem(LeftMenuEnum.POSTS);
         postsPage = new PostsPage();
         postsPage.deletePost("KL post for comment deleting test");
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         postsPage.getNameBar().clickLogOut();
         logger.info("User is logged out");
@@ -172,7 +169,7 @@ public class WPCommentCanBeDeleted13Test {
     }
 
 
-    @AfterMethod
+    @AfterMethod(groups = {"regression"})
     public void tearDown() {
         Browser.close();
 

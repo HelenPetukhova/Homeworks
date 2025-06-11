@@ -20,7 +20,7 @@ public class WPLogin15Test {
     private LoginPage loginPage;
     private static final Logger logger = Logger.getLogger(WPLogin15Test.class);
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"smoke", "regression"})
     public void initialize() {
         Configuration.getProperties();
         Browser.initDriver();
@@ -37,7 +37,6 @@ public class WPLogin15Test {
     public void loginPageCanBeOpenedTest() {
         logger.info("Checking that login page is opened");
         Assert.assertTrue(loginPage.isPageOpened(), "'Log In' button is not displayed");
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
     }
 
@@ -48,7 +47,6 @@ public class WPLogin15Test {
     public void loginWithCorrectCredentialsTest(String role, String username, String password) {
         logger.info("Logging in as a user with " + role + "role");
         loginPage.doLogin(role, username, password);
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         DashboardPage dashboardPage = new DashboardPage();
         Assert.assertTrue(dashboardPage.isPageOpened(), "Dashboard page is not opened");
@@ -68,7 +66,6 @@ public class WPLogin15Test {
 
         logger.info("Logging in as a user with randomly generated login and password");
         loginPage.doLogin(randomRole.getValue(), randomUsername, randomPassword);
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         Assert.assertTrue(loginPage.isErrorMessageForInvalidCredentialsDisplayed(), "Error message is not displayed");
         System.out.println(loginPage.getErrorMessageText());
@@ -79,7 +76,7 @@ public class WPLogin15Test {
 
 
 
-    @AfterMethod
+    @AfterMethod(groups = {"smoke", "regression"})
     public void tearDown() {
         logger.info("Browser is closing");
         Browser.close();

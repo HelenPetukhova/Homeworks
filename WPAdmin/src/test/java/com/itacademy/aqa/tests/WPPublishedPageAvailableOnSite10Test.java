@@ -6,6 +6,7 @@ import com.itacademy.aqa.data.UserRoleLeftMenuData;
 import com.itacademy.aqa.enums.ItemStatusEnum;
 import com.itacademy.aqa.enums.LeftMenuEnum;
 import com.itacademy.aqa.pages.*;
+import com.itacademy.aqa.utils.ApiCheckUrl;
 import com.itacademy.aqa.utils.RandomUtil;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
@@ -22,7 +23,7 @@ public class WPPublishedPageAvailableOnSite10Test {
     private static Logger logger = Logger.getLogger(WPPublishedPageAvailableOnSite10Test.class);
 
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"regression", "smoke"})
     public void initialize() {
         Configuration.getProperties();
         Browser.initDriver();
@@ -129,8 +130,8 @@ public class WPPublishedPageAvailableOnSite10Test {
 
         logger.info("Publishing a new page");
         newPagePage.saveDraft();
+        newPagePage.isSavedButtonDisplayed();
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
 
         String pageUrl = newPagePage.takePageUrlFromSidebar();
         newPagePage.viewPagesButtonClick();
@@ -138,12 +139,7 @@ public class WPPublishedPageAvailableOnSite10Test {
         pagesPage = new PagesPage();
         pagesPage.getNameBar().clickLogOut();
 
-
-        given()
-                .log().all()
-                .get(pageUrl)
-                .then()
-                .statusCode(404);
+        Assert.assertTrue(ApiCheckUrl.getStatusCode(pageUrl)==404, "Status code is not 404");
 
         tearDown();
         initialize();
@@ -164,20 +160,13 @@ public class WPPublishedPageAvailableOnSite10Test {
 
         newPagePage.changePageStatus(ItemStatusEnum.PUBLISHED);
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
 
         logger.info("Opening 'Pages' page");
         newPagePage.viewPagesButtonClick();
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         pagesPage.getNameBar().clickLogOut();
 
-
-        given()
-                .log().all()
-                .get(pageUrl)
-                .then()
-                .statusCode(200);
+        Assert.assertTrue(ApiCheckUrl.getStatusCode(pageUrl)==200, "Status code is not 200");
 
         logger.info("Logging in WP Admin site");
         loginPage = new LoginPage();
@@ -196,7 +185,7 @@ public class WPPublishedPageAvailableOnSite10Test {
     }
 
 
-    @AfterMethod
+    @AfterMethod(groups = {"regression", "smoke"})
     public void tearDown() {
 
         Browser.close();

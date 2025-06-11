@@ -1,5 +1,6 @@
 package com.itacademy.aqa.config;
 
+import com.itacademy.aqa.enums.BrowserEnum;
 import org.apache.log4j.Logger;
 
 import java.io.File;

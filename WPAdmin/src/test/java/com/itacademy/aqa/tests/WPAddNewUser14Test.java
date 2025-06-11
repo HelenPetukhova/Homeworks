@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 public class WPAddNewUser14Test {
     private static final Logger logger = Logger.getLogger(WPAddNewUser14Test.class);
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"smoke", "regression"})
     public void initialize() {
         Configuration.getProperties();
         Browser.initDriver();
@@ -29,7 +29,6 @@ public class WPAddNewUser14Test {
     }
 
 
-    // TC14
     @Test(groups = {"smoke", "regression"})
     @Description("Test14: Create a new user")
     @Severity(SeverityLevel.NORMAL)
@@ -56,7 +55,6 @@ public class WPAddNewUser14Test {
 
         NewUserPage newUserPage = new NewUserPage();
         newUserPage.feelAddNewUserForm(user);
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         usersPage = new UsersPage();
         Assert.assertTrue(usersPage.getAllUsernames().contains(user.getUsername()), "User is not displayed in Users table");
@@ -68,7 +66,6 @@ public class WPAddNewUser14Test {
         loginPage = new LoginPage();
         loginPage.doLogin(user.getRoleEnum().getValue(), user.getUsername(), user.getPassword());
         dashboardPage = new DashboardPage();
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         Assert.assertTrue(dashboardPage.isPageOpened(), "New user cannot login");
         logger.info("The user is logged in");
@@ -89,7 +86,7 @@ public class WPAddNewUser14Test {
 
 
 
-    @AfterMethod
+    @AfterMethod(groups = {"smoke", "regression"})
     public void tearDown() {
         logger.info("Browser is closing");
         Browser.close();

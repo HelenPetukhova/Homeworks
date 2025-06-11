@@ -46,7 +46,7 @@ public class UserRoleLeftMenuData {
     public static Object[][] userRoleCredentialsPageCreators(){
         return new Object[][]{
                 {"Admin",Configuration.getProperties().getProperty("adminUserName"),Configuration.getProperties().getProperty("adminPassword"), "KL ADMIN NEW PAGE TITLE TEST"},
-                //        {"Editor",Configuration.getProperties().getProperty("editorUserName"),Configuration.getProperties().getProperty("editorPassword"), "KL EDITOR NEW PAGE TITLE TEST"},
+                {"Editor",Configuration.getProperties().getProperty("editorUserName"),Configuration.getProperties().getProperty("editorPassword"), "KL EDITOR NEW PAGE TITLE TEST"},
 
         };
     }

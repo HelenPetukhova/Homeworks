@@ -21,7 +21,7 @@ public class WPPageDraftSave08Test {
     private static final Logger logger = Logger.getLogger(WPPageDraftSave08Test.class);
 
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"smoke", "regression"})
     public void initialize() {
         Configuration.getProperties();
         Browser.initDriver();
@@ -29,7 +29,7 @@ public class WPPageDraftSave08Test {
     }
 
 
-    @Test
+    @Test(groups = {"smoke", "regression"})
     @Description("Test: Pages page can be opened") @Severity(SeverityLevel.CRITICAL)
     public void pagesPageCanBeOpenedTest() {
         logger.info("Starting test: 'Pages' page can be opened");
@@ -42,7 +42,6 @@ public class WPPageDraftSave08Test {
 
         PagesPage pagesPage = new PagesPage();
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         Assert.assertTrue(pagesPage.isPageOpened(), "Pages page is not opened");
         logger.info("Found 'Pages' page opened");
         pagesPage.getNameBar().clickLogOut();
@@ -52,7 +51,7 @@ public class WPPageDraftSave08Test {
 
 
 
-    @Test(dataProvider = "userRoleCredentialsPageCreators", dataProviderClass = UserRoleLeftMenuData.class)
+    @Test(dataProvider = "userRoleCredentialsPageCreators", dataProviderClass = UserRoleLeftMenuData.class, groups = {"smoke", "regression"})
     @Description("Test08: Page - Draft can be saved") @Severity(SeverityLevel.CRITICAL)
 
     public void PageDraftCanBeSavedAndFoundInPagesTableTest(String role, String userName, String password, String pageTitle) {
@@ -75,7 +74,6 @@ public class WPPageDraftSave08Test {
 
         newPagePage.saveDraft();
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         Assert.assertTrue(newPagePage.isSavedButtonDisplayed(), "Saved button is not displayed");
 
 
@@ -86,7 +84,6 @@ public class WPPageDraftSave08Test {
         String expectedPageTitle = pageTitle + " — Draft";
         System.out.println("Actual posts list: " + pagesPage.getAllPagesTitles());
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         Assert.assertTrue(pagesPage.getAllPagesTitles().contains(expectedPageTitle), "In Pages table there is no title of saved draft with 'Draft' mark");
         logger.info("Found Draft page displayed on 'Pages' page with 'Draft' mark");
         pagesPage.deletePage(pageTitle);
@@ -95,7 +92,7 @@ public class WPPageDraftSave08Test {
         logger.info("The user is logged out");
     }
 
-    @AfterMethod
+    @AfterMethod(groups = {"smoke", "regression"})
     public void tearDown() {
         Browser.close();
 

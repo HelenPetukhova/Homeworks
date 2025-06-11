@@ -42,7 +42,6 @@ public class NewUserPage extends BaseAdminPage {
         logger.info("Filling 'Username' field");
         WebElement usernameField = Browser.waitForElementToBeClickableAndFind(USERNAME_FIELD_LOCATOR);
         usernameField.clear();
-        //  String userName = "user_" + RandomUtil.generateRandomString(8);
         usernameField.sendKeys(userName);
     }
 
@@ -51,7 +50,6 @@ public class NewUserPage extends BaseAdminPage {
         logger.info("Filling 'Email' field");
         WebElement emailField = Browser.waitForElementToBeClickableAndFind(EMAIL_FIELD_LOCATOR);
         emailField.clear();
-        //    String email = RandomUtil.generateEmail(6);
         emailField.sendKeys(email);
     }
 
@@ -60,7 +58,6 @@ public class NewUserPage extends BaseAdminPage {
         logger.info("Filling 'First Name' field");
         WebElement firstNameField = Browser.waitForElementToBeClickableAndFind(FIRST_NAME_FIELD_LOCATOR);
         firstNameField.clear();
-        //  String firstName = RandomUtil.generateRandomString(10);
         firstNameField.sendKeys(firstName);
     }
 
@@ -69,7 +66,6 @@ public class NewUserPage extends BaseAdminPage {
         logger.info("Filling 'Last Name' field");
         WebElement lastNameField = Browser.waitForElementToBeClickableAndFind(LAST_NAME_FIELD_LOCATOR);
         lastNameField.clear();
-        //   String lastName = RandomUtil.generateRandomString(10);
         lastNameField.sendKeys(lastName);
     }
 
@@ -78,7 +74,6 @@ public class NewUserPage extends BaseAdminPage {
         logger.info("Filling 'Website' field");
         WebElement websiteField = Browser.waitForElementToBeClickableAndFind(WEBSITE_FIELD_LOCATOR);
         websiteField.clear();
-        //    String website = RandomUtil.generateRandomString(10) + ".kltest";
         websiteField.sendKeys(website);
     }
 
@@ -87,7 +82,6 @@ public class NewUserPage extends BaseAdminPage {
         logger.info("Filling 'Password' field");
         WebElement passwordField = Browser.waitForElementToBeClickableAndFind(PASSWORD_FIELD_LOCATOR);
         passwordField.clear();
-        //    String password = RandomUtil.generateRandomString(10);
         passwordField.sendKeys(password);
     }
 
@@ -100,12 +94,6 @@ public class NewUserPage extends BaseAdminPage {
     @Step("Select a user's role")
     public void selectRole(RolesEnum rolesEnum) {
         logger.info("Selecting user's role: " + rolesEnum);
-
-//        RolesEnum[] roles = RolesEnum.values();
-//        Random random = new Random();
-//        RolesEnum selectedRole = roles[random.nextInt(roles.length)];
-//        String roleValue = selectedRole.getValue();
-
         WebElement roleDdlElement = Browser.waitForElementToBeClickableAndFind(ROLE_DDL_LOCATOR);
         Select roleDdl = new Select(roleDdlElement);
         roleDdl.selectByValue(rolesEnum.getValue());

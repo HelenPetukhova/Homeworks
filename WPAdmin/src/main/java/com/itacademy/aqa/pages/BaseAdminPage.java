@@ -3,10 +3,8 @@ package com.itacademy.aqa.pages;
 import com.itacademy.aqa.elements.LeftMenu;
 import com.itacademy.aqa.elements.NameBar;
 
+// Abstract base page for admin part of WP. Has left menu and name bar
 
-/**
- * Abstract base page for admin part of WP. Has left menu and name bar
- */
 
 public abstract class BaseAdminPage  extends BaseWPPage{
     private final LeftMenu leftMenu;

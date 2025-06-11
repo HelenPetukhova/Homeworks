@@ -34,7 +34,6 @@ public class StatusPopUp {
             String currentYearString = yearInputField.getAttribute("value");
             Integer currentYear = Integer.valueOf(currentYearString);
             String scheduledYear = String.valueOf(currentYear + 1);
-            //        yearInputField.clear();
             yearInputField.click(); // фокусируем
             yearInputField.sendKeys(Keys.chord(Keys.CONTROL, "a")); // выделить всё
             yearInputField.sendKeys(Keys.BACK_SPACE);

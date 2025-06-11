@@ -16,7 +16,6 @@ public class MediaPage extends BaseAdminPage {
 
     private static final By MEDIA_LIBRARY_LOCATOR = By.xpath("//*[@class='wp-heading-inline'][contains(text(),'Media Library')]");
     private static final By ADD_NEW_MEDIA_FILE_BUTTON_LOCATOR = By.xpath("//a[contains(@class,'page-title-action')]");
-    private static final By SELECT_FILES_BUTTON_LOCATOR = By.xpath("//*[@class='upload-ui']/button");
     private static final By INPUT_FIELD_LOCATOR = By.xpath("//input[@type='file']");
     private static final By UPLOADED_IMG_FILE_LOCATOR = By.xpath(" //*[@class='attachments-wrapper']//*[@class='thumbnail']//*[contains(@src,'camera')]");
     private static final By UPLOADED_VIDEO_FILE_LOCATOR = By.xpath("//div[@class='filename']//div[contains(text(),'big_file.mp4')]");
@@ -51,10 +50,6 @@ public class MediaPage extends BaseAdminPage {
         addNewMediaFileButton.click();
     }
 
-//    public void selectFilesButtonClick() {
-//        WebElement selectFilesButton = Browser.waitForElementToBeClickableAndFind(SELECT_FILES_BUTTON_LOCATOR);
-//        selectFilesButton.click();
-//    }
 
     @Step("Upload new image file < 50MB: camera.jpg")
     public boolean uploadNewImgFile() {

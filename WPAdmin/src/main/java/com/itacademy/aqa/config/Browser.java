@@ -103,6 +103,13 @@ public class Browser {
     }
 
 
+    @Attachment
+    public static byte[] takeScreenShot(){
+        saveScreenShot();
+        return getScreenShotByBytes();
+    }
+
+
 
     public static void saveScreenShot() {
         File screenShotsFolder = new File(Configuration.getScreenShotFolder());
@@ -131,7 +138,7 @@ public class Browser {
     }
 
     @Attachment
-    public static byte[] takeScreenShot() {
+    public static byte[] getScreenShotByBytes() {
         TakesScreenshot ts = (TakesScreenshot) Browser.getWebDriver();
         return ts.getScreenshotAs(OutputType.BYTES);
     }

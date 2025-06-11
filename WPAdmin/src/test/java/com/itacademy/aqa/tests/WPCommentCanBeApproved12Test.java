@@ -16,18 +16,12 @@ import org.testng.annotations.Test;
 
 public class WPCommentCanBeApproved12Test {
     private static final String COMMENT_TEXT = "KL comment to be approved";
-    //    private static final String commentatorName = "KL Commentator Approved Name";
-//    private static final String commentatorEmail = "klcommapp@test.com";
+
     private static Logger logger = Logger.getLogger(WPCommentCanBeApproved12Test.class);
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"regression", "smoke"})
     public void initialize() {
         Configuration.getProperties();
-//        System.out.println(Configuration.getProperties().get("adminPassword"));
-//        System.out.println(Configuration.getProperties().get("baseUrl"));
-//        System.out.println(Configuration.getProperties().get("browser"));
-//        System.out.println(System.getProperties().get("browser"));
-//        System.out.println(System.getProperties().get("env"));
         Browser.initDriver();
         Browser.getWebDriver().get(Configuration.getBaseUrl());
     }
@@ -75,7 +69,6 @@ public class WPCommentCanBeApproved12Test {
         logger.info("Adding a comment to post");
 
         wordPressPostPagePage.addCommentToPost(COMMENT_TEXT, "KL Commentator Approved Name", "klcommapp@test.com");
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         wordPressPostPagePage = new WordPressPostPagePage();
         System.out.println(wordPressPostPagePage.getCommentText());
@@ -98,7 +91,6 @@ public class WPCommentCanBeApproved12Test {
         Assert.assertTrue(commentsPage.getAllCommentsTitles().contains(COMMENT_TEXT), "'KL comment to be approved' is not displayed on Comments page");
 
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
 
         logger.info("Taking a background color of the row with not approved comment and left border color");
         commentsPage.takeRowColor(COMMENT_TEXT);
@@ -112,7 +104,6 @@ public class WPCommentCanBeApproved12Test {
 
         commentsPage = new CommentsPage();
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         Assert.assertTrue(commentsPage.getCommentsActionsRow().isActionOptionAvailable("KL comment to be approved", ActionsEnum.UNAPPROVE), "'Approve' link is not changed to 'Unapprove' action link");
         System.out.println(commentsPage.takeRowColor(COMMENT_TEXT));
         System.out.println(commentsPage.takeLeftBorderColor(COMMENT_TEXT));
@@ -134,7 +125,7 @@ public class WPCommentCanBeApproved12Test {
     @Test(groups = {"regression", "smoke"})
     @Description("Test12-2: Approved comment is displayed on WP site")
     @Severity(SeverityLevel.NORMAL)
-    public void ApprovedCommentIsDisplayedOnWPPostPageTest() {
+    public void approvedCommentIsDisplayedOnWPPostPageTest() {
         logger.info("Starting test: Approved comment is displayed on WP site");
         logger.info("Logging in as an Admin");
 
@@ -177,7 +168,6 @@ public class WPCommentCanBeApproved12Test {
         wordPressPostPagePage.addCommentToPost(COMMENT_TEXT, "KL Commentator Approved Name", "klcommapp@test.com");
 
         wordPressPostPagePage = new WordPressPostPagePage();
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         System.out.println(wordPressPostPagePage.getCommentText());
         Assert.assertTrue(wordPressPostPagePage.getCommentText().contains(COMMENT_TEXT), "The comment is not displayed after submitting");
@@ -201,7 +191,6 @@ public class WPCommentCanBeApproved12Test {
         Assert.assertTrue(commentsPage.isPageOpened(), "Comments page is not opened");
         Assert.assertTrue(commentsPage.getAllCommentsTitles().contains(COMMENT_TEXT), "'KL comment to be approved' is not displayed on Comments page");
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
 
         logger.info("Approving the comment");
 
@@ -209,7 +198,6 @@ public class WPCommentCanBeApproved12Test {
 
         commentsPage = new CommentsPage();
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         Assert.assertTrue(commentsPage.getCommentsActionsRow().isActionOptionAvailable(COMMENT_TEXT, ActionsEnum.UNAPPROVE), "'Approve' link is not changed to 'Unapprove' action link");
 
         commentsPage.getNameBar().clickLogOut();
@@ -221,7 +209,6 @@ public class WPCommentCanBeApproved12Test {
         Assert.assertEquals(wordPressPostPagePage.getCommentText(), COMMENT_TEXT);
         Assert.assertTrue(wordPressPostPagePage.getCommentAuthorByCommentText(COMMENT_TEXT).contains("KL Commentator Approved Name"));
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         logger.info("Approved comment is displayed under published post");
 
         tearDown();
@@ -252,7 +239,7 @@ public class WPCommentCanBeApproved12Test {
     }
 
 
-    @AfterMethod
+    @AfterMethod(groups = {"regression", "smoke"})
     public void tearDown() {
 
         Browser.close();

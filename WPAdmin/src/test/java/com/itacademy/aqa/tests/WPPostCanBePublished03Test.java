@@ -21,14 +21,9 @@ public class WPPostCanBePublished03Test {
     private static final Logger logger = Logger.getLogger(WPPostCanBePublished03Test.class);
 
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"smoke", "regression"})
     public void initialize() {
         Configuration.getProperties();
-//        System.out.println(Configuration.getProperties().get("contributorPassword"));
-//        System.out.println(Configuration.getProperties().get("baseUrl"));
-//        System.out.println(Configuration.getProperties().get("browser"));
-//        System.out.println(System.getProperties().get("browser"));
-//        System.out.println(System.getProperties().get("env"));
         Browser.initDriver();
         Browser.getWebDriver().get(Configuration.getBaseUrl());
     }
@@ -71,7 +66,6 @@ public class WPPostCanBePublished03Test {
 
         logger.info("Contributor user submitted new post for review");
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
 
         newPostPage.viewPostsButtonClick();
 
@@ -100,7 +94,6 @@ public class WPPostCanBePublished03Test {
         System.out.println("Actual posts list: " + postsPage.getAllPostsTitles());
         System.out.println(expectedSentForReviewPostTitle);
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         Assert.assertTrue(postsPage.getAllPostsTitles().contains(expectedSentForReviewPostTitle), "In All Posts table there is no title of the post or 'Pending' mark");
 
         logger.info("Editor user found Contributor's post");
@@ -112,7 +105,6 @@ public class WPPostCanBePublished03Test {
         newPostPage.publishPost();
 
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
 
         logger.info("Editor user published Contributor's post");
 
@@ -121,7 +113,6 @@ public class WPPostCanBePublished03Test {
         postsPage = new PostsPage();
         System.out.println("Actual posts list: " + postsPage.getAllPostsTitles());
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         Assert.assertTrue(postsPage.getAllPostsTitles().contains(postTitle), "In All Posts table there is no correct title of the post");
 
         logger.info("Editor user found published Contributor's post on Posts table without 'Pending' mark");
@@ -131,7 +122,6 @@ public class WPPostCanBePublished03Test {
         postsPage = new PostsPage();
         System.out.println("Actual posts list: " + postsPage.getAllPostsTitles());
         Browser.takeScreenShot();
-        Browser.saveScreenShot();
         Assert.assertTrue(postsPage.getAllPostsTitles().contains(postTitle), "In Published Posts table there is no correct title of published post");
 
         logger.info("Editor user found published Contributor's post on Posts table when 'Published' filter is selected");
@@ -146,7 +136,7 @@ public class WPPostCanBePublished03Test {
 
     }
 
-    @AfterMethod
+    @AfterMethod(groups = {"smoke", "regression"})
     public void tearDown() {
         Browser.close();
 

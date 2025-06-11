@@ -17,20 +17,14 @@ public class WPCommentCanBeAdded11Test {
     private static Logger logger = Logger.getLogger(WPCommentCanBeAdded11Test.class);
 
 
-    @BeforeMethod
+    @BeforeMethod(groups = {"regression", "smoke"})
     public void initialize() {
         Configuration.getProperties();
-//        System.out.println(Configuration.getProperties().get("adminPassword"));
-//        System.out.println(Configuration.getProperties().get("baseUrl"));
-//        System.out.println(Configuration.getProperties().get("browser"));
-//        System.out.println(System.getProperties().get("browser"));
-//        System.out.println(System.getProperties().get("env"));
         Browser.initDriver();
         Browser.getWebDriver().get(Configuration.getBaseUrl());
     }
 
 
-    //TC11
     @Test(groups = {"regression", "smoke"})
     @Description("Test11: Comment can added to published post")
     @Severity(SeverityLevel.NORMAL)
@@ -81,7 +75,6 @@ public class WPCommentCanBeAdded11Test {
 
         logger.info("Adding a comment to post");
         wordPressPostPagePage.addCommentToPost(commentTest, commentatorName, commentatorEmail);
-        Browser.saveScreenShot();
         Browser.takeScreenShot();
         wordPressPostPagePage = new WordPressPostPagePage();
 
@@ -119,7 +112,7 @@ public class WPCommentCanBeAdded11Test {
     }
 
 
-    @AfterMethod
+    @AfterMethod(groups = {"regression", "smoke"})
     public void tearDown() {
         Browser.close();
 

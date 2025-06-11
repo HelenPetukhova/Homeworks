@@ -47,9 +47,6 @@ public class LeftMenu {
 
 
         for (WebElement menuItemsWebElement : menuItemsWebElements) {
-            //  String fullElementText = menuItemsWebElement.getText().trim();
-            //  String onlyMenuItemsText = fullElementText.replaceAll("\\d|\\n|\\s", "");
-
             String onlyMenuItemsText = (String) Browser.getJavascriptExecutor().executeScript(
                     "return arguments[0].childNodes[0].nodeValue.trim();", menuItemsWebElement);  // arguments[0] - ссылка на menuItemsWebElement, childNodes[0] - смотрит на первый дочерний узел элемента (Comments), nodeValue - возвращает его текст
             menuItemsTitles.add(onlyMenuItemsText);
