@@ -104,6 +104,7 @@
 <!--                    <suiteXmlFiles>-->
 <!--                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>-->
 <!--                    </suiteXmlFiles>-->
+                    <groups>${groupName}</groups>
                     <systemPropertyVariables>
                         <groupName>${groupName}</groupName>
                     </systemPropertyVariables>
