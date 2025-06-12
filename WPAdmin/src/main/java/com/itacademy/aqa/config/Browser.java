@@ -137,7 +137,7 @@ public class Browser {
         }
     }
 
-    @Attachment
+
     public static byte[] getScreenShotByBytes() {
         TakesScreenshot ts = (TakesScreenshot) Browser.getWebDriver();
         return ts.getScreenshotAs(OutputType.BYTES);

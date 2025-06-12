@@ -23,6 +23,11 @@ public class WPLogin15Test {
     @BeforeMethod(groups = {"smoke", "regression"})
     public void initialize() {
         Configuration.getProperties();
+        System.out.println(Configuration.getProperties().get("adminPassword"));
+        System.out.println(Configuration.getProperties().get("baseUrl"));
+        System.out.println(Configuration.getProperties().get("browser"));
+        System.out.println(System.getProperties().get("browser"));
+        System.out.println(System.getProperties().get("env"));
         Browser.initDriver();
         Browser.getWebDriver().get(Configuration.getBaseUrl());
         logger.info("Starting Login test");

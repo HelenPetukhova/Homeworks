@@ -17,7 +17,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.given;
 
 public class WPPublishedPageAvailableOnSite10Test {
     private static Logger logger = Logger.getLogger(WPPublishedPageAvailableOnSite10Test.class);

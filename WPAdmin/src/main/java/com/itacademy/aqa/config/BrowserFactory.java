@@ -15,9 +15,7 @@ import java.net.URL;
 public class BrowserFactory {
     private static final Logger logger = Logger.getLogger(BrowserFactory.class);
 
-//    static {
-//        System.setProperty("webdriver.chrome.driver", "c:/chromedriver.exe");
-//    }
+
 
     public static WebDriver createDriver(BrowserEnum browserEnum) {
         logger.info("Creating webDriver for browser: " + browserEnum);

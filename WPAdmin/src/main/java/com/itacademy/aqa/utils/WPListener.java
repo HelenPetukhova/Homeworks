@@ -9,7 +9,6 @@ public class WPListener implements ITestListener {
     public void onTestFailure(ITestResult result) {
         System.out.println((result.isSuccess() ? "PASS" : "FAILED") + "| " + result.getName() + "| "+ result.getMethod().getDescription());
         try{
-            Browser.saveScreenShot();
             Browser.takeScreenShot();
         } catch (Exception e) {
             System.out.println("Failed to take a screenshot");
